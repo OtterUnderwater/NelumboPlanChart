@@ -1,0 +1,8 @@
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\bin\Debug\TestDllWindows.exe
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\bin\Debug\TestDllWindows.pdb
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.csproj.AssemblyReference.cache
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.Properties.Resources.resources
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.csproj.GenerateResource.cache
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.csproj.CoreCompileInputs.cache
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.exe
+C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.pdb
