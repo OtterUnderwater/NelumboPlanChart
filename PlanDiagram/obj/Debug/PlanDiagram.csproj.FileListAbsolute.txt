@@ -23,3 +23,15 @@ D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.g.resources
 D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.Properties.Resources.resources
 D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.GenerateResource.cache
 D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.CoreCompileInputs.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\bin\Debug\PlanDiagram.dll
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\bin\Debug\PlanDiagram.pdb
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.AssemblyReference.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\MainControl.baml
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\MainControl.g.cs
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram_MarkupCompile.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.g.resources
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.Properties.Resources.resources
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.GenerateResource.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.CoreCompileInputs.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.dll
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.pdb

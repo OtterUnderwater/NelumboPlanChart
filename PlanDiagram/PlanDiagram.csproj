@@ -50,6 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\GanttItemModel.cs" />
     <Compile Include="Services\GanttChart.cs" />
     <Page Include="MainControl.xaml">
       <Generator>MSBuild:Compile</Generator>

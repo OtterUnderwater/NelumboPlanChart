@@ -20,3 +20,17 @@ D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.dll
 D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.WinForms.pdb
 D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.pdb
 D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllW.E78425B9.Up2Date
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\TestDllWindows.exe.config
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\TestDllWindows.exe
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\TestDllWindows.pdb
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.WinForms.dll
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.dll
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.WinForms.pdb
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.pdb
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.csproj.AssemblyReference.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.Properties.Resources.resources
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.csproj.GenerateResource.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.csproj.CoreCompileInputs.cache
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllW.E78425B9.Up2Date
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.exe
+C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.pdb

@@ -40,7 +40,7 @@
             <!-- Левая колонка: заголовок "Процесс" + список -->
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -58,7 +58,7 @@
                     <ItemsControl x:Name="TasksList">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Height="40" 
+                                <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="40" 
                                         Background="White" Padding="5,0">
                                     <TextBlock Text="{Binding ProcessName}" VerticalAlignment="Center"
                                                ToolTip="{Binding TooltipText}"/>
@@ -72,30 +72,84 @@
             <!-- Правая колонка: заголовок с датами + диаграмма -->
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!-- Заголовок с датами (горизонтальная прокрутка) -->
-                <ScrollViewer Grid.Row="0" x:Name="DateHeaderScrollViewer" 
-                              HorizontalScrollBarVisibility="Hidden"
-                              VerticalScrollBarVisibility="Disabled"
-                              ScrollChanged="DateHeaderScrollViewer_ScrollChanged">
-                    <Border Background="#E8E8E8" BorderBrush="#CCCCCC" BorderThickness="1,0,1,1">
-                        <Canvas x:Name="DateHeaderCanvas"  HorizontalAlignment="Left" VerticalAlignment="Top"
-                                Height="50" Background="#E8E8E8"/>
+
+                <!-- Заголовок правой панели с датами -->
+                <ScrollViewer Grid.Row="0" x:Name="DateHeaderScrollViewer"
+                          HorizontalScrollBarVisibility="Visible" 
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalAlignment="Left"
+                          ScrollChanged="DateHeaderScrollViewer_ScrollChanged">
+                    <Border Background="#E8E8E8" BorderBrush="#CCCCCC" BorderThickness="1,0,0,1">
+                        <Canvas x:Name="DateHeaderCanvas" Height="50" Background="#E8E8E8" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     </Border>
                 </ScrollViewer>
 
-                <!-- Область с прямоугольниками (диаграмма) -->
+                <!-- Область с диаграммой Ганта -->
                 <ScrollViewer Grid.Row="1" x:Name="GanttScrollViewer"   
-                          HorizontalScrollBarVisibility="Visible"
-                          VerticalScrollBarVisibility="Hidden"
-                          ScrollChanged="GanttScrollViewer_ScrollChanged">
-                    <Canvas x:Name="GanttCanvas" 
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Background="#FEFEFE" />
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollBarVisibility="Hidden"                        
+                              ScrollChanged="GanttScrollViewer_ScrollChanged">
+                    <ItemsControl x:Name="GanttItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="TaskBorder" Height="40" BorderBrush="#E0E0E0" 
+                        BorderThickness="0,0,0,1" Background="#FEFEFE"
+                        MouseLeftButtonDown="TaskItem_Click"
+                        Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ItemsControl}, Path=ActualWidth}">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#FEFEFE"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#E5F0FF"/>
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Canvas>
+                                        <!-- Прямоугольник задачи - теперь DataContext установлен правильно -->
+                                        <Border Background="{Binding GanttItem.Color}" 
+                                Width="{Binding GanttItem.Width}" 
+                                Height="34" 
+                                CornerRadius="3"
+                                Cursor="Hand"
+                                Tag="{Binding TaskData}"
+                                MouseLeftButtonDown="GanttItem_Click"
+                                Canvas.Left="{Binding GanttItem.Left}">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{Binding GanttItem.Color}"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="{Binding GanttItem.HoverColor}"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding GanttItem.DisplayText}" 
+                                       FontSize="11" 
+                                       Foreground="White"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"
+                                       Margin="4,0"/>
+                                        </Border>
+                                    </Canvas>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </ScrollViewer>
             </Grid>
         </Grid>

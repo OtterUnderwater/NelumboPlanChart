@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace PlanDiagram
 {
@@ -23,7 +24,7 @@ namespace PlanDiagram
 
             // Получаем процессы
             _allTasks = DataProvider.GetListProcesses();
-            _ganttChartService = new GanttChart(GanttCanvas, DateHeaderCanvas);
+            _ganttChartService = new GanttChart();
 
             // Устанавливаем даты по умолчанию
             SetDefaultDates();
@@ -75,11 +76,54 @@ namespace PlanDiagram
 
             TasksList.ItemsSource = filteredTasks;
 
-            // Обновляем диаграмму
-            _ganttChartService.Build(startDate, endDate, filteredTasks);
+            // Строим диаграмму и получаем элементы Ганта (каждый элемент - это строка с прямоугольником)
+            var ganttItems = _ganttChartService.Build(startDate, endDate, filteredTasks);
+
+            // Устанавливаем источник данных
+            GanttItemsControl.ItemsSource = ganttItems;
+
+            // Рисуем заголовок дат
+            _ganttChartService.DrawDateHeader(DateHeaderCanvas, startDate, endDate, filteredTasks);
 
             // Сбрасываем прокрутку после построения
             ResetScrollPositions();
+        }
+
+        /// <summary>
+        /// Обработка клика по элементу диаграммы Ганта (прямоугольнику)
+        /// </summary>
+        private void GanttItem_Click(object sender, MouseButtonEventArgs e)
+        {
+            var border = sender as Border;
+            if (border != null && border.Tag is ProcessData task)
+            {
+                ShowTaskDetails(task);
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// Обработка клика по строке задачи
+        /// </summary>
+        private void TaskItem_Click(object sender, MouseButtonEventArgs e)
+        {
+            var border = sender as Border;
+            if (border != null && border.DataContext is GanttRowModel row)
+            {
+                ShowTaskDetails(row.TaskData);
+                e.Handled = true;
+            }
+        }
+
+        private void ShowTaskDetails(ProcessData task)
+        {
+            string message = $"Процесс: {task.ProcessName}\n" +
+                            $"Плановая дата начала: {task.PlanStartDate:dd.MM.yyyy}\n" +
+                            $"Плановая дата окончания: {task.PlanEndDate:dd.MM.yyyy}\n" +
+                            $"Длительность: {task.WorkTime:F1} часов\n";
+
+            MessageBox.Show(message, "Информация о процессе",
+                          MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         #region [Прокрутка диаграммы] 
