@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PlanDiagram.WinForms;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,7 +17,10 @@ namespace TestDllWindows
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Hashtable parameters = new Hashtable();
+            parameters["ConnectionString"] = "server=MB-FW5T1RUAHO2Z;database=box001;uid=se;pwd=wd;";
+            parameters["RegID"] = 174967;
+            Application.Run(new PlanForm(parameters));
         }
     }
 }

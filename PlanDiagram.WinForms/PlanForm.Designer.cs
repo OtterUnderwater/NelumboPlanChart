@@ -1,6 +1,6 @@
 ﻿namespace PlanDiagram.WinForms
 {
-    partial class UserControl1
+    partial class PlanForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.

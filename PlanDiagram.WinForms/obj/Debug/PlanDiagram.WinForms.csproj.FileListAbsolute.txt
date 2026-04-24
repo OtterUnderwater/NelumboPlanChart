@@ -1,0 +1,9 @@
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.WinForms.dll
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.WinForms.pdb
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.dll
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.pdb
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.csproj.AssemblyReference.cache
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.csproj.CoreCompileInputs.cache
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiag.D7F7CBDE.Up2Date
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.dll
+D:\otter\C#\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.pdb

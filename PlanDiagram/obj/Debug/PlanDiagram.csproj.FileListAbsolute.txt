@@ -11,3 +11,15 @@ C:\Users\Prog01\source\repos\PlanDiagram\PlanDiagram\obj\Debug\PlanDiagram.cspro
 C:\Users\Prog01\source\repos\PlanDiagram\PlanDiagram\obj\Debug\PlanDiagram.csproj.CoreCompileInputs.cache
 C:\Users\Prog01\source\repos\PlanDiagram\PlanDiagram\obj\Debug\PlanDiagram.dll
 C:\Users\Prog01\source\repos\PlanDiagram\PlanDiagram\obj\Debug\PlanDiagram.pdb
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.AssemblyReference.cache
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram_MarkupCompile.cache
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.dll
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.pdb
+D:\otter\C#\NelumboPlanChart\PlanDiagram\bin\Debug\PlanDiagram.dll
+D:\otter\C#\NelumboPlanChart\PlanDiagram\bin\Debug\PlanDiagram.pdb
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\MainControl.g.cs
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\MainControl.baml
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.g.resources
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.Properties.Resources.resources
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.GenerateResource.cache
+D:\otter\C#\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.CoreCompileInputs.cache

@@ -6,3 +6,17 @@ C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows
 C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.csproj.CoreCompileInputs.cache
 C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.exe
 C:\Users\Prog01\source\repos\PlanDiagram\TestDllWindows\obj\Debug\TestDllWindows.pdb
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.csproj.AssemblyReference.cache
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.Properties.Resources.resources
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.csproj.GenerateResource.cache
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.csproj.CoreCompileInputs.cache
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.exe
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllWindows.pdb
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\TestDllWindows.exe.config
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\TestDllWindows.exe
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\TestDllWindows.pdb
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.WinForms.dll
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.dll
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.WinForms.pdb
+D:\otter\C#\NelumboPlanChart\TestDllWindows\bin\Debug\PlanDiagram.pdb
+D:\otter\C#\NelumboPlanChart\TestDllWindows\obj\Debug\TestDllW.E78425B9.Up2Date
