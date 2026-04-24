@@ -8,10 +8,13 @@ namespace PlanDiagram.Models
 {
     public class ProcessData
     {
+        public string WorkCenterName { get; set; }
         public string ProcessName { get; set; }
-        public DateTime PlanStartDate { get; set; }
-        public DateTime PlanEndDate { get; set; }
-        public double WorkTime { get; set; }
+        public string OpName { get; set; }
+        public double Qty { get; set; }
+        public DateTime PlanStartDate { get; set; }  //PlanStartTime
+        public DateTime PlanEndDate { get; set; }  //PlanEndTime
+        public double WorkTime { get; set; } //FullWorkTimeH
         public double DurationDays => (PlanEndDate - PlanStartDate).TotalDays + 1;
         public string TooltipText => $"{ProcessName}\n{PlanStartDate:dd.MM.yyyy} - {PlanEndDate:dd.MM.yyyy}\n{WorkTime:F1} ч";
     }

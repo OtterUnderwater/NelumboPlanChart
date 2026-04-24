@@ -22,20 +22,32 @@ namespace PlanDiagram
         {
             InitializeComponent();
 
+            string connectionString = (string) parameters["ConnectionString"];
+            int regID = (int) parameters["RegID"];
+            int? orderID = (int?) parameters["OrderID"];
+
             // Получаем процессы
             _allTasks = DataProvider.GetListProcesses();
             _ganttChartService = new GanttChart();
 
+            //exec[mes].[obc_ProdPlan] @ActionID = 1, @OrderID = 27
+            //exec[mes].[ext_ProdPlan] @ActionID = 1
+
+
             // Устанавливаем даты по умолчанию
-            SetDefaultDates();
+            SetDefaultDates(orderID);
 
             // Устанавливаем DataContext для списка процессов
             TasksList.ItemsSource = _allTasks;
         }
 
-        private void SetDefaultDates()
+        /// <summary>
+        /// Для конкретного заказа - все даты, для общего плана - 2 недели.
+        /// </summary>
+        /// <param name="OrderID"></param>
+        private void SetDefaultDates(int? OrderID)
         {
-            if (_allTasks == null || _allTasks.Count == 0)
+            if (_allTasks == null || _allTasks.Count == 0 || OrderID == null)
             {
                 StartDatePicker.SelectedDate = DateTime.Today;
                 EndDatePicker.SelectedDate = DateTime.Today.AddDays(14);
