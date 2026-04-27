@@ -4,9 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
 
 namespace PlanDiagram
 {
@@ -17,9 +19,7 @@ namespace PlanDiagram
         private PlanRepository _planRepository;
         private List<ProcessData> _allProcess;
         private List<DateTime> _allWorkDays;
-        private bool _isSyncing = false;
         #endregion
-
         public MainControl(Hashtable parameters)
         {
             InitializeComponent();
@@ -49,9 +49,30 @@ namespace PlanDiagram
 
             StartDatePicker.SelectedDate = _allProcess.Min(t => t.PlanStartDate);
             EndDatePicker.SelectedDate = _allProcess.Max(t => t.PlanEndDate);
+            UpdatePlan();
         }
 
+        /// <summary>
+        /// Проверяет, пересекаются ли два периода дат
+        /// </summary>
+        /// <param name="taskStart">Начало задачи</param>
+        /// <param name="taskEnd">Конец задачи</param>
+        /// <param name="filterStart">Начало фильтра</param>
+        /// <param name="filterEnd">Конец фильтра</param>
+        /// <returns>True, если периоды пересекаются</returns>
+        private bool IsDateRangeIntersects(DateTime taskStart, DateTime taskEnd, DateTime filterStart, DateTime filterEnd)
+        {
+            return Max(taskStart, filterStart) <= Min(taskEnd, filterEnd);
+        }
+        private DateTime Max(DateTime date1, DateTime date2) => date1 > date2 ? date1 : date2;
+        private DateTime Min(DateTime date1, DateTime date2) => date1 < date2 ? date1 : date2;
+
         private void BuildButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdatePlan();
+        }
+
+        private void UpdatePlan()
         {
             if (!StartDatePicker.SelectedDate.HasValue || !EndDatePicker.SelectedDate.HasValue)
             {
@@ -70,15 +91,16 @@ namespace PlanDiagram
                 return;
             }
 
-            // Фильтруем задачи
+            // Фильтруем задачи с использованием IsDateRangeIntersects
             var filteredTasks = _allProcess
-                .Where(t => t.PlanEndDate >= startDate && t.PlanStartDate <= endDate)
+                .Where(t => IsDateRangeIntersects(t.PlanStartDate, t.PlanEndDate, startDate, endDate))
                 .OrderBy(t => t.PlanStartDate)
+                .ThenBy(t => t.PlanEndDate)
                 .ToList();
 
             TasksList.ItemsSource = filteredTasks;
 
-            // Строим диаграмму
+            // Передаем отфильтрованные данные в GanttChart и строим диаграмму
             _ganttChartService.Build(startDate, endDate, filteredTasks, GanttCanvas);
             _ganttChartService.DrawDateHeader(DateHeaderCanvas);
 
@@ -88,8 +110,8 @@ namespace PlanDiagram
 
         private void GanttItem_Click(object sender, MouseButtonEventArgs e)
         {
-            var border = sender as Border;
-            if (border != null && border.Tag is ProcessData task)
+            var rectangle = sender as Rectangle;
+            if (rectangle != null && rectangle.Tag is ProcessData task)
             {
                 ShowTaskDetails(task);
                 e.Handled = true;
@@ -99,9 +121,9 @@ namespace PlanDiagram
         private void TaskItem_Click(object sender, MouseButtonEventArgs e)
         {
             var border = sender as Border;
-            if (border != null && border.DataContext is GanttRowModel row)
+            if (border != null && border.DataContext is ProcessData task)
             {
-                ShowTaskDetails(row.TaskData);
+                ShowTaskDetails(task);
                 e.Handled = true;
             }
         }
@@ -120,59 +142,29 @@ namespace PlanDiagram
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        #region [Прокрутка диаграммы - синхронная]
+        #region [Прокрутка диаграммы]
 
         private void GanttScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (!_isSyncing)
-            {
-                _isSyncing = true;
-
-                // Синхронизация горизонтали с заголовком дат
-                if (e.HorizontalChange != 0 && DateHeaderScrollViewer != null)
-                {
-                    DateHeaderScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
-                }
-
-                // Синхронизация вертикали с левым списком
-                if (e.VerticalChange != 0 && LeftScrollViewer != null)
-                {
-                    LeftScrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
-                }
-
-                _isSyncing = false;
-            }
+            DateHeaderScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
+            LeftScrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
         }
 
         private void DateHeaderScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (!_isSyncing && e.HorizontalChange != 0 && GanttScrollViewer != null)
-            {
-                _isSyncing = true;
-                GanttScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
-                _isSyncing = false;
-            }
+            GanttScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
         }
 
         private void LeftScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (!_isSyncing && e.VerticalChange != 0 && GanttScrollViewer != null)
-            {
-                _isSyncing = true;
-                GanttScrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
-                _isSyncing = false;
-            }
+            GanttScrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
         }
 
         private void ResetScrollPositions()
         {
-            _isSyncing = true;
-
             GanttScrollViewer?.ScrollToHome();
             DateHeaderScrollViewer?.ScrollToHome();
             LeftScrollViewer?.ScrollToTop();
-
-            _isSyncing = false;
         }
 
         #endregion

@@ -3,15 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\desktop\\nelumboplanchart\\plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\desktop\\nelumboplanchart\\plandiagram\\maincontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\desktop\\nelumboplanchart\\plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\desktop\\nelumboplanchart\\plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -22,31 +22,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainControl.xaml",
               "DocumentMoniker": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml",
               "RelativeDocumentMoniker": "PlanDiagram\\MainControl.xaml",
-              "ToolTip": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml*",
-              "RelativeToolTip": "PlanDiagram\\MainControl.xaml*",
+              "ToolTip": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml",
+              "RelativeToolTip": "PlanDiagram\\MainControl.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-04-27T11:50:20.332Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainControl.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml.cs",
-              "RelativeDocumentMoniker": "PlanDiagram\\MainControl.xaml.cs",
-              "ToolTip": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml.cs",
-              "RelativeToolTip": "PlanDiagram\\MainControl.xaml.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACAAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T07:14:52.325Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
@@ -57,9 +45,22 @@
               "RelativeDocumentMoniker": "PlanDiagram\\Services\\GanttChart.cs",
               "ToolTip": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\Services\\GanttChart.cs",
               "RelativeToolTip": "PlanDiagram\\Services\\GanttChart.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAAAGgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwBsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-27T07:14:30.391Z",
+              "WhenOpened": "2026-04-27T12:50:12.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainControl.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml.cs",
+              "RelativeDocumentMoniker": "PlanDiagram\\MainControl.xaml.cs",
+              "ToolTip": "C:\\Users\\Prog01\\Desktop\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml.cs*",
+              "RelativeToolTip": "PlanDiagram\\MainControl.xaml.cs*",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAowBQAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T12:50:06.25Z",
               "EditorCaption": ""
             }
           ]

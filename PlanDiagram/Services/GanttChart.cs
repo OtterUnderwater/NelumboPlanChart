@@ -18,6 +18,8 @@ namespace PlanDiagram.Services
         private List<ProcessData> _process;
         private double _pixelsPerDay = 45.0;
         private Canvas _ganttCanvas;
+        private DateTime _minDate;
+        private DateTime _maxDate;
         #endregion
 
         public GanttChart(List<DateTime> allWorkDays)
@@ -32,6 +34,8 @@ namespace PlanDiagram.Services
         {
             _process = process;
             _ganttCanvas = ganttCanvas;
+            _minDate = minDate;
+            _maxDate = maxDate;
 
             // Фильтруем рабочие дни по диапазону дат
             _filteredWorkDays = _allWorkDays
@@ -41,6 +45,21 @@ namespace PlanDiagram.Services
 
             // Отрисовываем диаграмму
             DrawGanttChart();
+        }
+
+        /// <summary>
+        /// Обрезает дату задачи по границам фильтра
+        /// </summary>
+        private DateTime ClipDate(DateTime date, bool isStart)
+        {
+            if (isStart)
+            {
+                return date < _minDate ? _minDate : date;
+            }
+            else
+            {
+                return date > _maxDate ? _maxDate : date;
+            }
         }
 
         /// <summary>
@@ -78,9 +97,17 @@ namespace PlanDiagram.Services
                 };
                 _ganttCanvas.Children.Add(gridLine);
 
-                // Находим индексы рабочих дней для дат задачи
-                int startIndex = GetWorkingDayIndex(task.PlanStartDate);
-                int endIndex = GetWorkingDayIndex(task.PlanEndDate);
+                // Обрезаем даты задачи по границам видимой области
+                DateTime visibleStart = ClipDate(task.PlanStartDate, true);
+                DateTime visibleEnd = ClipDate(task.PlanEndDate, false);
+
+                // Проверяем, есть ли пересечение с видимой областью
+                if (visibleStart > visibleEnd)
+                    continue;
+
+                // Находим индексы рабочих дней для обрезанных дат
+                int startIndex = GetWorkingDayIndex(visibleStart);
+                int endIndex = GetWorkingDayIndex(visibleEnd);
 
                 // Если даты не найдены в рабочих днях, пропускаем задачу
                 if (startIndex == -1 || endIndex == -1)
@@ -100,7 +127,11 @@ namespace PlanDiagram.Services
                     RadiusX = 3,
                     RadiusY = 3,
                     Tag = task,
-                    Cursor = Cursors.Hand
+                    Cursor = Cursors.Hand,
+                    ToolTip = $"{task.ProcessName}\n" +
+                             $"План: {task.PlanStartDate:dd.MM.yyyy} - {task.PlanEndDate:dd.MM.yyyy}\n" +
+                             $"Видимый период: {visibleStart:dd.MM.yyyy} - {visibleEnd:dd.MM.yyyy}\n" +
+                             $"Длительность: {task.WorkTime:F1} ч"
                 };
 
                 // Обработчик клика
