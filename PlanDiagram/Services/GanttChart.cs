@@ -11,21 +11,26 @@ namespace PlanDiagram.Services
     public class GanttChart
     {
         #region [Переменные класса]
-        private DateTime _minDate;
-        private DateTime _maxDate;
-        private List<ProcessData> _tasks;
+        private List<DateTime> _allWorkDays;
+        private List<DateTime> _filteredWorkDays;
+        private List<ProcessData> _process;
         private double _pixelsPerDay = 45.0;
         #endregion
 
-        public GanttChart()
+        public GanttChart(List<DateTime> allWorkDays)
         {
+            _allWorkDays = allWorkDays;
         }
 
-        public List<GanttRowModel> Build(DateTime minDate, DateTime maxDate, List<ProcessData> tasks)
+        public List<GanttRowModel> Build(DateTime minDate, DateTime maxDate, List<ProcessData> process)
         {
-            _minDate = minDate;
-            _maxDate = maxDate;
-            _tasks = tasks;
+            _process = process;
+
+            // Фильтруем рабочие дни по диапазону дат
+            _filteredWorkDays = _allWorkDays
+                .Where(d => d >= minDate && d <= maxDate)
+                .OrderBy(d => d)
+                .ToList();
 
             return CreateGanttRows();
         }
@@ -34,14 +39,22 @@ namespace PlanDiagram.Services
         {
             var rows = new List<GanttRowModel>();
 
-            if (_tasks == null || _tasks.Count == 0)
+            if (_process == null || _process.Count == 0 || _filteredWorkDays == null || _filteredWorkDays.Count == 0)
                 return rows;
 
-            foreach (var task in _tasks)
+            foreach (var task in _process)
             {
-                // Вычисляем позицию и ширину для задачи
-                double x = (task.PlanStartDate - _minDate).TotalDays * _pixelsPerDay;
-                double width = (task.PlanEndDate - task.PlanStartDate).TotalDays * _pixelsPerDay + _pixelsPerDay;
+                // Находим индексы рабочих дней для дат задачи
+                int startIndex = GetWorkingDayIndex(task.PlanStartDate);
+                int endIndex = GetWorkingDayIndex(task.PlanEndDate);
+
+                // Если даты не найдены в рабочих днях, пропускаем задачу
+                if (startIndex == -1 || endIndex == -1)
+                    continue;
+
+                // Вычисляем позицию и ширину на основе индексов рабочих дней
+                double x = startIndex * _pixelsPerDay;
+                double width = (endIndex - startIndex + 1) * _pixelsPerDay;
                 if (width < 4) width = 4;
 
                 var displayText = width > 40 ? $"{task.WorkTime:F1} ч" : "";
@@ -65,46 +78,40 @@ namespace PlanDiagram.Services
 
                 rows.Add(row);
             }
-
             return rows;
+        }
+
+        /// <summary>
+        /// Получение индекса рабочего дня в отфильтрованном списке
+        /// </summary>
+        private int GetWorkingDayIndex(DateTime date)
+        {
+            for (int i = 0; i < _filteredWorkDays.Count; i++)
+            {
+                if (_filteredWorkDays[i].Date == date.Date)
+                    return i;
+            }
+            return -1;
         }
 
         public double GetTotalWidth()
         {
-            int totalDays = (int)(_maxDate - _minDate).TotalDays + 1;
-            return totalDays * _pixelsPerDay;
+            return _filteredWorkDays != null ? _filteredWorkDays.Count * _pixelsPerDay : 0;
         }
 
-        public void DrawDateHeader(Canvas dateHeaderCanvas, DateTime minDate, DateTime maxDate, List<ProcessData> tasks)
+        public void DrawDateHeader(Canvas dateHeaderCanvas)
         {
-            if (tasks == null || tasks.Count == 0) return;
+            if (_filteredWorkDays == null || _filteredWorkDays.Count == 0) return;
 
             dateHeaderCanvas.Children.Clear();
 
-            int totalDays = (int)(maxDate - minDate).TotalDays + 1;
-            var grayColor = new SolidColorBrush(Color.FromRgb(240, 240, 240));
             double totalWidth = GetTotalWidth();
-
             dateHeaderCanvas.Width = totalWidth;
 
-            for (int i = 0; i < totalDays; i++)
+            for (int i = 0; i < _filteredWorkDays.Count; i++)
             {
-                DateTime currentDate = minDate.AddDays(i);
+                DateTime currentDate = _filteredWorkDays[i];
                 double x = i * _pixelsPerDay;
-
-                // Подсветка выходных дней
-                if (currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday)
-                {
-                    var weekendBg = new System.Windows.Shapes.Rectangle
-                    {
-                        Width = _pixelsPerDay,
-                        Height = 50,
-                        Fill = grayColor
-                    };
-                    Canvas.SetLeft(weekendBg, x);
-                    Canvas.SetTop(weekendBg, 0);
-                    dateHeaderCanvas.Children.Add(weekendBg);
-                }
 
                 // Дата
                 var dateText = new TextBlock
@@ -123,8 +130,7 @@ namespace PlanDiagram.Services
                 {
                     Text = currentDate.ToString("ddd", new System.Globalization.CultureInfo("ru-RU")).ToUpper(),
                     FontSize = 9,
-                    Foreground = currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday ?
-                                Brushes.Red : Brushes.Gray
+                    Foreground = Brushes.Gray
                 };
                 Canvas.SetLeft(dayOfWeekText, x + (_pixelsPerDay - 30) / 2);
                 Canvas.SetTop(dayOfWeekText, 28);

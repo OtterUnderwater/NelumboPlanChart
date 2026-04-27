@@ -16,11 +16,4 @@ namespace PlanDiagram.Models
         public Brush HoverColor { get; set; }
         public ProcessData TaskData { get; set; }
     }
-
-    public class GanttRowModel
-    {
-        public string ProcessName { get; set; }
-        public ProcessData TaskData { get; set; }
-        public GanttItemModel GanttItem { get; set; }
-    }
 }

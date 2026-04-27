@@ -18,7 +18,7 @@ namespace TestDllWindows
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Hashtable parameters = new Hashtable();
-            parameters["ConnectionString"] = "server=MB-FW5T1RUAHO2Z;database=box001;uid=se;pwd=wd;";
+            parameters["ConnectionString"] = "server=MB-FW5T1RUAHO2Z;database=_box001;uid=se;pwd=wd;";
             parameters["RegID"] = 174967;
             parameters["OrderID"] = 27;
             Application.Run(new PlanForm(parameters));

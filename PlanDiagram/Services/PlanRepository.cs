@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 
 namespace PlanDiagram.Services
 {
@@ -49,10 +50,10 @@ namespace PlanDiagram.Services
                                 WorkCenterName = reader.GetString(workCenterName),
                                 ProcessName = reader.GetString(processName),
                                 OpName = reader.GetString(opName),
-                                Qty = reader.GetDouble(qty),
+                                Qty = (double) reader.GetDecimal(qty),
                                 PlanStartDate = reader.GetDateTime(planStartDate),
                                 PlanEndDate = reader.GetDateTime(planEndDate),
-                                WorkTime = reader.GetDouble(workTime)
+                                WorkTime = (double) reader.GetDecimal(workTime)
                             };
                             processData.Add(data);
                         }
@@ -79,6 +80,33 @@ namespace PlanDiagram.Services
                 .ToList();
 
             return result;
+        }
+
+        /// <summary>
+        /// Получение рабочих дней из таблицы Calendar
+        /// </summary>
+        public List<DateTime> GetWorkingDaysFromCalendar()
+        {
+            List<DateTime> workingDays = new List<DateTime>();
+
+            using (SqlConnection connection = new SqlConnection(_connection))
+            {
+                using (SqlCommand command = new SqlCommand("mes.ext_ProdPlan", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@ActionID", 20);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            workingDays.Add(reader.GetDateTime(0));
+                        }
+                    }
+                }
+            }
+            return workingDays;
         }
     }
 }

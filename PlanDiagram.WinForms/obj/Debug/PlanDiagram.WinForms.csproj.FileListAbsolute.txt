@@ -16,3 +16,12 @@ C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagr
 C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiag.D7F7CBDE.Up2Date
 C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.dll
 C:\Users\artem\Desktop\programm_need_ne_virus\project\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.pdb
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.WinForms.dll
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.WinForms.pdb
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.dll
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\bin\Debug\PlanDiagram.pdb
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.csproj.AssemblyReference.cache
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.csproj.CoreCompileInputs.cache
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiag.D7F7CBDE.Up2Date
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.dll
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram.WinForms\obj\Debug\PlanDiagram.WinForms.pdb

@@ -16,6 +16,7 @@ namespace PlanDiagram
         private GanttChart _ganttChartService;
         private PlanRepository _planRepository;
         private List<ProcessData> _allProcess;
+        private List<DateTime> _allWorkDays; // Все рабочие дни из БД
         private bool _isSyncing = false;
         #endregion
 
@@ -23,13 +24,15 @@ namespace PlanDiagram
         {
             InitializeComponent();
 
-            string connectionString = (string) parameters["ConnectionString"];
-            int regID = (int) parameters["RegID"];
-            int? orderID = (int?) parameters["OrderID"];
+            string connectionString = (string)parameters["ConnectionString"];
+            int regID = (int)parameters["RegID"];
+            int? orderID = (int?)parameters["OrderID"];
 
             _planRepository = new PlanRepository(connectionString, orderID);
             _allProcess = _planRepository.GetPlanList();
-            _ganttChartService = new GanttChart();
+            _allWorkDays = _planRepository.GetWorkingDaysFromCalendar(); // Получаем все рабочие дни один раз
+
+            _ganttChartService = new GanttChart(_allWorkDays);
 
             // Устанавливаем даты по умолчанию
             SetDefaultDates(orderID);
@@ -41,7 +44,6 @@ namespace PlanDiagram
         /// <summary>
         /// Для конкретного заказа - все даты, для общего плана - 2 недели.
         /// </summary>
-        /// <param name="OrderID"></param>
         private void SetDefaultDates(int? OrderID)
         {
             if (_allProcess == null || _allProcess.Count == 0 || OrderID == null)
@@ -85,14 +87,14 @@ namespace PlanDiagram
 
             TasksList.ItemsSource = filteredTasks;
 
-            // Строим диаграмму и получаем элементы Ганта (каждый элемент - это строка с прямоугольником)
+            // Строим диаграмму - внутри Build происходит фильтрация рабочих дней
             var ganttItems = _ganttChartService.Build(startDate, endDate, filteredTasks);
 
             // Устанавливаем источник данных
             GanttItemsControl.ItemsSource = ganttItems;
 
-            // Рисуем заголовок дат
-            _ganttChartService.DrawDateHeader(DateHeaderCanvas, startDate, endDate, filteredTasks);
+            // Рисуем заголовок с отфильтрованными рабочими днями
+            _ganttChartService.DrawDateHeader(DateHeaderCanvas);
 
             // Сбрасываем прокрутку после построения
             ResetScrollPositions();
@@ -112,7 +114,7 @@ namespace PlanDiagram
         }
 
         /// <summary>
-        /// Обработка клика по строке задачи
+        /// Обработка клика по строке
         /// </summary>
         private void TaskItem_Click(object sender, MouseButtonEventArgs e)
         {
@@ -124,12 +126,15 @@ namespace PlanDiagram
             }
         }
 
-        private void ShowTaskDetails(ProcessData task)
+        private void ShowTaskDetails(ProcessData process)
         {
-            string message = $"Процесс: {task.ProcessName}\n" +
-                            $"Плановая дата начала: {task.PlanStartDate:dd.MM.yyyy}\n" +
-                            $"Плановая дата окончания: {task.PlanEndDate:dd.MM.yyyy}\n" +
-                            $"Длительность: {task.WorkTime:F1} часов\n";
+            string message = $"Рабочее место: {process.WorkCenterName}\n" +
+                            $"Процесс: {process.ProcessName}\n" +
+                            $"Операция: {process.OpName}\n" +
+                            $"Количество: {process.Qty}\n" +
+                            $"Плановая дата начала: {process.PlanStartDate:dd.MM.yyyy}\n" +
+                            $"Плановая дата окончания: {process.PlanEndDate:dd.MM.yyyy}\n" +
+                            $"Длительность: {process.WorkTime:F1} часов\n";
 
             MessageBox.Show(message, "Информация о процессе",
                           MessageBoxButton.OK, MessageBoxImage.Information);
@@ -137,20 +142,17 @@ namespace PlanDiagram
 
         #region [Прокрутка диаграммы] 
 
-        // Горизонтальная и вертикальная синхронизация
         private void GanttScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (!_isSyncing)
             {
                 _isSyncing = true;
 
-                // Синхронизация горизонтальной прокрутки с заголовком дат
                 if (e.HorizontalChange != 0)
                 {
                     DateHeaderScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
                 }
 
-                // Синхронизация вертикальной прокрутки с левым списком
                 if (e.VerticalChange != 0)
                 {
                     LeftScrollViewer.ScrollToVerticalOffset(e.VerticalOffset);
@@ -160,7 +162,6 @@ namespace PlanDiagram
             }
         }
 
-        // Заголовки двигают диаграмму (только горизонтально)
         private void DateHeaderScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (!_isSyncing && e.HorizontalChange != 0)
@@ -171,7 +172,6 @@ namespace PlanDiagram
             }
         }
 
-        // Вертикальная синхронизация (левый список двигает диаграмму)
         private void LeftScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (!_isSyncing && e.VerticalChange != 0)
