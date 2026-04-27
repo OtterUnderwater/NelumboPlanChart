@@ -14,7 +14,8 @@ namespace PlanDiagram
     {
         #region [Переменные класса]
         private GanttChart _ganttChartService;
-        private List<ProcessData> _allTasks;
+        private PlanRepository _planRepository;
+        private List<ProcessData> _allProcess;
         private bool _isSyncing = false;
         #endregion
 
@@ -26,19 +27,15 @@ namespace PlanDiagram
             int regID = (int) parameters["RegID"];
             int? orderID = (int?) parameters["OrderID"];
 
-            // Получаем процессы
-            _allTasks = DataProvider.GetListProcesses();
+            _planRepository = new PlanRepository(connectionString, orderID);
+            _allProcess = _planRepository.GetPlanList();
             _ganttChartService = new GanttChart();
-
-            //exec[mes].[obc_ProdPlan] @ActionID = 1, @OrderID = 27
-            //exec[mes].[ext_ProdPlan] @ActionID = 1
-
 
             // Устанавливаем даты по умолчанию
             SetDefaultDates(orderID);
 
             // Устанавливаем DataContext для списка процессов
-            TasksList.ItemsSource = _allTasks;
+            TasksList.ItemsSource = _allProcess;
         }
 
         /// <summary>
@@ -47,15 +44,15 @@ namespace PlanDiagram
         /// <param name="OrderID"></param>
         private void SetDefaultDates(int? OrderID)
         {
-            if (_allTasks == null || _allTasks.Count == 0 || OrderID == null)
+            if (_allProcess == null || _allProcess.Count == 0 || OrderID == null)
             {
                 StartDatePicker.SelectedDate = DateTime.Today;
                 EndDatePicker.SelectedDate = DateTime.Today.AddDays(14);
                 return;
             }
 
-            StartDatePicker.SelectedDate = _allTasks.Min(t => t.PlanStartDate);
-            EndDatePicker.SelectedDate = _allTasks.Max(t => t.PlanEndDate);
+            StartDatePicker.SelectedDate = _allProcess.Min(t => t.PlanStartDate);
+            EndDatePicker.SelectedDate = _allProcess.Max(t => t.PlanEndDate);
         }
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace PlanDiagram
             }
 
             // Фильтруем задачи по датам для отображения в списке
-            var filteredTasks = _allTasks
+            var filteredTasks = _allProcess
                 .Where(t => t.PlanEndDate >= startDate && t.PlanStartDate <= endDate)
                 .OrderBy(t => t.PlanStartDate)
                 .ToList();

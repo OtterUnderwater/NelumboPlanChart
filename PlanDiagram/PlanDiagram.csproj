@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Models\GanttItemModel.cs" />
     <Compile Include="Services\GanttChart.cs" />
+    <Compile Include="Services\PlanRepository.cs" />
     <Page Include="MainControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
