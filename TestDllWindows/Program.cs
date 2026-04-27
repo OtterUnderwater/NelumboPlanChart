@@ -17,11 +17,23 @@ namespace TestDllWindows
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             Hashtable parameters = new Hashtable();
             parameters["ConnectionString"] = "server=MB-FW5T1RUAHO2Z;database=_box001;uid=se;pwd=wd;";
             parameters["RegID"] = 174967;
             parameters["OrderID"] = 27;
-            Application.Run(new PlanForm(parameters));
+
+            // Создаем форму и добавляем на нее панель
+            Form hostForm = new Form();
+            hostForm.Text = "Производственный план";
+            hostForm.WindowState = FormWindowState.Maximized;
+            hostForm.StartPosition = FormStartPosition.CenterScreen;
+
+            PlanPanel panel = new PlanPanel(parameters);
+            panel.Dock = DockStyle.Fill;
+            hostForm.Controls.Add(panel);
+
+            Application.Run(hostForm);
         }
     }
 }

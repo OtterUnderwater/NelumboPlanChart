@@ -6,12 +6,12 @@ using System.Windows.Forms.Integration;
 
 namespace PlanDiagram.WinForms
 {
-    public partial class PlanForm : Form
+    public partial class PlanPanel : UserControl
     {
         private ElementHost _elementHost;
         private MainControl _wpfControl;
 
-        public PlanForm(Hashtable parameters)
+        public PlanPanel(Hashtable parameters)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace PlanDiagram.WinForms
 
                 Controls.Add(_elementHost);
 
-                ConfigureForm();
+                ConfigurePanel();
             }
             catch (Exception ex)
             {
@@ -42,13 +42,9 @@ namespace PlanDiagram.WinForms
                 throw;
             }
         }
-
-        private void ConfigureForm()
+        private void ConfigurePanel()
         {
-            this.Text = "Продуктовый план";
-            this.WindowState = FormWindowState.Maximized;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.MinimumSize = new Size(800, 600);
+            this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
         }
     }
