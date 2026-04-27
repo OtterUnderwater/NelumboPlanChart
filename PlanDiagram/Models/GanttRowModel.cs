@@ -11,5 +11,6 @@ namespace PlanDiagram.Models
         public string ProcessName { get; set; }
         public ProcessData TaskData { get; set; }
         public GanttItemModel GanttItem { get; set; }
+        public double TotalWidth { get; set; }
     }
 }
