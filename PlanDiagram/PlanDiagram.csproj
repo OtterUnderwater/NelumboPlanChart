@@ -50,13 +50,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DateHelper.cs" />
+    <Compile Include="Helpers\GanttHelper.cs" />
     <Compile Include="Interfaces\IGanttChart.cs" />
-    <Compile Include="Models\GanttItemModel.cs" />
-    <Compile Include="Models\GanttRowModel.cs" />
+    <Compile Include="Models\LoadingWC.cs" />
     <Compile Include="Services\GanttChart.cs" />
     <Compile Include="Services\GanttChartByWorkCenter.cs" />
     <Compile Include="Services\PlanRepository.cs" />
-    <Compile Include="Test\DataProvider.cs" />
     <Page Include="MainControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,4 +1,5 @@
-﻿using PlanDiagram.Interfaces;
+﻿using PlanDiagram.Helpers;
+using PlanDiagram.Interfaces;
 using PlanDiagram.Models;
 using System;
 using System.Collections.Generic;
@@ -84,7 +85,7 @@ namespace PlanDiagram.Services
 
             for (int i = 0; i < _process.Count; i++)
             {
-                var task = _process[i];
+                var proc = _process[i];
                 double y = currentY + i * rowHeight;
 
                 // Горизонтальная линия сетки
@@ -100,8 +101,8 @@ namespace PlanDiagram.Services
                 _ganttCanvas.Children.Add(gridLine);
 
                 // Обрезаем даты задачи по границам видимой области
-                DateTime visibleStart = ClipDate(task.PlanStartDate, true);
-                DateTime visibleEnd = ClipDate(task.PlanEndDate, false);
+                DateTime visibleStart = ClipDate(proc.PlanStartDate, true);
+                DateTime visibleEnd = ClipDate(proc.PlanEndDate, false);
 
                 // Проверяем, есть ли пересечение с видимой областью
                 if (visibleStart > visibleEnd)
@@ -125,17 +126,15 @@ namespace PlanDiagram.Services
                 {
                     Width = width,
                     Height = rowHeight - 4,
-                    Fill = new SolidColorBrush((Color) ColorConverter.ConvertFromString(task.HexCode)),
+                    Fill  = GanttHelper.GetBrushHex(proc.HexCode),
                     RadiusX = 3,
                     RadiusY = 3,
-                    Tag = task,
+                    Tag = proc,
                     Cursor = Cursors.Hand,
-                    ToolTip = $"План: {task.PlanStartDate:dd.MM.yyyy} - {task.PlanEndDate:dd.MM.yyyy}\n" + 
-                              $"Раб.место: {task.WorkCenterName}\n" +
-                              $"Операция: {task.OpName}\n" +
-                              $"Процесс: {task.ProcessName}\n" +
-                              $"Кол-во: {task.Qty}\n" +
-                              $"Длит-ть: {task.WorkTime:F1} ч"
+                    ToolTip = $"План: {proc.PlanStartDate:dd.MM.yyyy} - {proc.PlanEndDate:dd.MM.yyyy}\n" + 
+                              $"Раб.место: {proc.WorkCenterName}\n" +
+                              $"Кол-во: {proc.Qty}\n" +
+                              $"Длит-ть: {proc.WorkTime:F1} ч"
                 };
 
                 // Обработчик клика
@@ -144,7 +143,7 @@ namespace PlanDiagram.Services
                     var rectangle = s as Rectangle;
                     if (rectangle?.Tag is ProcessData clickedTask)
                     {
-                        ShowTaskDetails(clickedTask);
+                        GanttHelper.ShowDetails(clickedTask);
                     }
                 };
 
@@ -157,7 +156,7 @@ namespace PlanDiagram.Services
                 {
                     var text = new TextBlock
                     {
-                        Text = $"{task.WorkTime:F1} ч",
+                        Text = $"{proc.WorkTime:F1} ч",
                         FontSize = 11,
                         Foreground = Brushes.White,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -172,23 +171,6 @@ namespace PlanDiagram.Services
         }
 
         /// <summary>
-        /// Отображение деталей задачи
-        /// </summary>
-        private void ShowTaskDetails(ProcessData task)
-        {
-            string message = $"Рабочее место: {task.WorkCenterName}\n" +
-                            $"Процесс: {task.ProcessName}\n" +
-                            $"Операция: {task.OpName}\n" +
-                            $"Количество: {task.Qty}\n" +
-                            $"Плановая дата начала: {task.PlanStartDate:dd.MM.yyyy}\n" +
-                            $"Плановая дата окончания: {task.PlanEndDate:dd.MM.yyyy}\n" +
-                            $"Длительность: {task.WorkTime:F1} часов\n";
-
-            MessageBox.Show(message, "Информация о процессе",
-                          MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        /// <summary>
         /// Получение индекса рабочего дня в отфильтрованном списке
         /// </summary>
         private int GetWorkingDayIndex(DateTime date)
@@ -200,80 +182,15 @@ namespace PlanDiagram.Services
             }
             return -1;
         }
-
+        
         /// <summary>
-        /// Получение общей ширины диаграммы
-        /// </summary>
-        public double GetTotalWidth()
-        {
-            return _filteredWorkDays != null ? _filteredWorkDays.Count * _pixelsPerDay : 0;
-        }
-
-        /// <summary>
-        /// Отрисовка заголовка с датами
+        /// Отрисовка дат
         /// </summary>
         public void DrawDateHeader(Canvas dateHeaderCanvas)
         {
-            if (_filteredWorkDays == null || _filteredWorkDays.Count == 0) return;
-
-            dateHeaderCanvas.Children.Clear();
-
-            double totalWidth = GetTotalWidth();
-            dateHeaderCanvas.Width = totalWidth;
-            dateHeaderCanvas.Height = 50;
-
-            for (int i = 0; i < _filteredWorkDays.Count; i++)
-            {
-                DateTime currentDate = _filteredWorkDays[i];
-                double x = i * _pixelsPerDay;
-
-                // Дата
-                var dateText = new TextBlock
-                {
-                    Text = currentDate.ToString("dd.MM"),
-                    FontSize = 11,
-                    Foreground = Brushes.Black,
-                    FontWeight = FontWeights.Bold
-                };
-                Canvas.SetLeft(dateText, x + (_pixelsPerDay - 35) / 2);
-                Canvas.SetTop(dateText, 5);
-                dateHeaderCanvas.Children.Add(dateText);
-
-                // День недели
-                var dayOfWeekText = new TextBlock
-                {
-                    Text = currentDate.ToString("ddd", new System.Globalization.CultureInfo("ru-RU")).ToUpper(),
-                    FontSize = 9,
-                    Foreground = Brushes.Gray
-                };
-                Canvas.SetLeft(dayOfWeekText, x + (_pixelsPerDay - 30) / 2);
-                Canvas.SetTop(dayOfWeekText, 28);
-                dateHeaderCanvas.Children.Add(dayOfWeekText);
-
-                // Вертикальная линия
-                var line = new Line
-                {
-                    X1 = x + _pixelsPerDay,
-                    Y1 = 0,
-                    X2 = x + _pixelsPerDay,
-                    Y2 = 50,
-                    Stroke = Brushes.LightGray,
-                    StrokeThickness = 0.5
-                };
-                dateHeaderCanvas.Children.Add(line);
-            }
-
-            // Левая граница
-            var leftBorder = new Line
-            {
-                X1 = 0,
-                Y1 = 0,
-                X2 = 0,
-                Y2 = 50,
-                Stroke = Brushes.LightGray,
-                StrokeThickness = 1
-            };
-            dateHeaderCanvas.Children.Add(leftBorder);
+            GanttHelper.DrawDateHeader(dateHeaderCanvas, _filteredWorkDays, _pixelsPerDay);
         }
+
+        public double GetTotalWidth() => GanttHelper.GetWidth(_filteredWorkDays, _pixelsPerDay);
     }
 }

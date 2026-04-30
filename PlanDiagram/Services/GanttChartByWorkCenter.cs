@@ -1,4 +1,5 @@
-﻿using PlanDiagram.Interfaces;
+﻿using PlanDiagram.Helpers;
+using PlanDiagram.Interfaces;
 using PlanDiagram.Models;
 using System;
 using System.Collections.Generic;
@@ -59,19 +60,18 @@ namespace PlanDiagram.Services
                 .OrderBy(w => w)
                 .ToList();
 
-            // Для каждого рабочего места вычисляем максимальное количество активных процессов в день
-            var maxProcessesPerWorkCenter = new Dictionary<string, int>();
+            // Для каждого рабочего места: для каждого дня – количество записей загрузки
+            var workCenterDayLoadCount = new Dictionary<string, Dictionary<DateTime, int>>();
             foreach (var wc in workCenters)
             {
-                var processesForWc = _processes.Where(p => p.WorkCenterName == wc).ToList();
-                int maxCount = 0;
+                var dict = new Dictionary<DateTime, int>();
+                var processesForWc = _processes.Where(p => p.WorkCenterName == wc);
                 foreach (var day in _filteredWorkDays)
                 {
-                    int count = processesForWc.Count(p =>
-                        p.PlanStartDate.Date <= day.Date && p.PlanEndDate.Date >= day.Date);
-                    if (count > maxCount) maxCount = count;
+                    int count = processesForWc.Sum(p => p.WorkTimeDay?.Count(ld => ld.OnDate.Date == day.Date) ?? 0);
+                    dict[day] = Math.Max(count, 1); // минимум 1, чтобы не делить на ноль
                 }
-                maxProcessesPerWorkCenter[wc] = Math.Max(maxCount, 1); // минимум 1
+                workCenterDayLoadCount[wc] = dict;
             }
 
             _ganttCanvas.Width = totalWidth;
@@ -83,10 +83,8 @@ namespace PlanDiagram.Services
             {
                 string wcName = workCenters[wcIndex];
                 var processesForWc = _processes.Where(p => p.WorkCenterName == wcName).ToList();
-                int maxProcesses = maxProcessesPerWorkCenter[wcName];
-                double blockHeight = _rowHeight / maxProcesses;
 
-                // Фон строки (светло-серый)
+                // Фон строки
                 var rowBackground = new Rectangle
                 {
                     Width = totalWidth,
@@ -105,51 +103,66 @@ namespace PlanDiagram.Services
                     DateTime currentDay = _filteredWorkDays[dayIndex];
                     double x = dayIndex * _pixelsPerDay;
 
-                    // Активные процессы в этот день (упорядочим, чтобы было предсказуемо)
-                    var activeProcesses = processesForWc
-                        .Where(p => p.PlanStartDate.Date <= currentDay.Date &&
-                                    p.PlanEndDate.Date >= currentDay.Date)
-                        .OrderBy(p => p.PlanStartDate) // можно изменить порядок на более логичный
-                        .ToList();
+                    var dayLoads = new List<KeyValuePair<ProcessData, LoadingWC>>();
 
-                    if (activeProcesses.Count == 0) continue;
-
-                    // Рисуем каждый процесс в ячейке дня
-                    for (int i = 0; i < activeProcesses.Count; i++)
+                    foreach (var proc in processesForWc)
                     {
-                        var task = activeProcesses[i];
-                        double yOffset = currentY + i * blockHeight; // последовательно сверху вниз
+                        if (proc.WorkTimeDay == null) continue;
+                        foreach (var load in proc.WorkTimeDay)
+                        {
+                            if (load.OnDate.Date == currentDay.Date)
+                            {
+                                dayLoads.Add(new KeyValuePair<ProcessData, LoadingWC>(proc, load));
+                            }
+                        }
+                    }
+
+                    if (dayLoads.Count == 0) continue;
+
+                    double blockHeight = _rowHeight / dayLoads.Count;
+
+                    var orderedLoads = dayLoads.OrderBy(kvp => kvp.Key.ProcessName).ToList();
+
+                    for (int i = 0; i < orderedLoads.Count; i++)
+                    {
+                        var kvp = orderedLoads[i];
+                        ProcessData proc = kvp.Key;
+                        LoadingWC load = kvp.Value;
+
+                        double yOffset = currentY + i * blockHeight;
+
+                        int hours = (int)(load.WorkTimeMin / 60);
+                        int minutes = (int)(load.WorkTimeMin % 60);
+                        string loadText = load.WorkTimeMin > 0 ? $"{hours} ч {minutes} мин" : "0 мин";
 
                         var rect = new Rectangle
                         {
                             Width = _pixelsPerDay - 2,
                             Height = blockHeight - 2,
-                            Fill = GetBrushFromHex(task.HexCode),
+                            Fill = GanttHelper.GetBrushHex(proc.HexCode),
                             RadiusX = 2,
                             RadiusY = 2,
-                            Tag = task,
+                            Tag = proc,
                             Cursor = Cursors.Hand,
-                            ToolTip = $"Раб.место: {task.WorkCenterName}\n" +
-                                     $"Дата: {currentDay:dd.MM.yyyy}\n" +
-                                     $"Операция: {task.OpName}\n" +
-                                     $"Процесс: {task.ProcessName}\n" +
-                                     $"Кол-во: {task.Qty}\n" +
-                                     $"Длит-ть: {task.WorkTime:F1} ч"
+                            ToolTip = $"Процесс: {proc.ProcessName}\n" +
+                                      $"Операция: {proc.OpName}\n" +
+                                      $"Дата: {load.OnDate:dd.MM.yyyy}\n" +
+                                      $"Загрузка: {loadText}\n" +
+                                      $"Кол-во: {proc.Qty}"
                         };
 
                         rect.MouseLeftButtonDown += (s, e) =>
                         {
                             if ((s as Rectangle)?.Tag is ProcessData clickedTask)
-                                ShowTaskDetails(clickedTask);
+                                GanttHelper.ShowDetails(clickedTask);
                         };
 
                         Canvas.SetLeft(rect, x + 1);
                         Canvas.SetTop(rect, yOffset + 1);
-                        _ganttCanvas.Children.Add(rect);
+                        _ganttCanvas.Children.Add(rect);  
                     }
                 }
-
-                // Разделительная линия снизу строки
+                // Разделительная линия
                 var separator = new Line
                 {
                     X1 = 0,
@@ -165,80 +178,13 @@ namespace PlanDiagram.Services
             }
         }
 
-        private Brush GetBrushFromHex(string hexCode)
-        {
-            if (string.IsNullOrEmpty(hexCode))
-                return Brushes.Gray;
-            try
-            {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexCode));
-            }
-            catch
-            {
-                return Brushes.Gray;
-            }
-        }
-
-        private void ShowTaskDetails(ProcessData task)
-        {
-            string message = $"Рабочее место: {task.WorkCenterName}\n" +
-                             $"Процесс: {task.ProcessName}\n" +
-                             $"Операция: {task.OpName}\n" +
-                             $"Количество: {task.Qty}\n" +
-                             $"План: {task.PlanStartDate:dd.MM.yyyy} - {task.PlanEndDate:dd.MM.yyyy}\n" +
-                             $"Длительность: {task.WorkTime:F1} час\n";
-            MessageBox.Show(message, "Информация о процессе",
-                            MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
+        /// <summary>
+        /// Отрисовка дат
+        /// </summary>
         public void DrawDateHeader(Canvas dateHeaderCanvas)
         {
-            if (_filteredWorkDays == null || _filteredWorkDays.Count == 0) return;
-
-            dateHeaderCanvas.Children.Clear();
-            double totalWidth = _filteredWorkDays.Count * _pixelsPerDay;
-            dateHeaderCanvas.Width = totalWidth;
-            dateHeaderCanvas.Height = 50;
-
-            for (int i = 0; i < _filteredWorkDays.Count; i++)
-            {
-                DateTime date = _filteredWorkDays[i];
-                double x = i * _pixelsPerDay;
-
-                var dateText = new TextBlock
-                {
-                    Text = date.ToString("dd.MM"),
-                    FontSize = 11,
-                    FontWeight = FontWeights.Bold,
-                    Foreground = Brushes.Black
-                };
-                Canvas.SetLeft(dateText, x + (_pixelsPerDay - 35) / 2);
-                Canvas.SetTop(dateText, 5);
-                dateHeaderCanvas.Children.Add(dateText);
-
-                var dayText = new TextBlock
-                {
-                    Text = date.ToString("ddd", new System.Globalization.CultureInfo("ru-RU")).ToUpper(),
-                    FontSize = 9,
-                    Foreground = Brushes.Gray
-                };
-                Canvas.SetLeft(dayText, x + (_pixelsPerDay - 30) / 2);
-                Canvas.SetTop(dayText, 28);
-                dateHeaderCanvas.Children.Add(dayText);
-
-                var line = new Line
-                {
-                    X1 = x + _pixelsPerDay,
-                    Y1 = 0,
-                    X2 = x + _pixelsPerDay,
-                    Y2 = 50,
-                    Stroke = Brushes.LightGray,
-                    StrokeThickness = 0.5
-                };
-                dateHeaderCanvas.Children.Add(line);
-            }
+            GanttHelper.DrawDateHeader(dateHeaderCanvas, _filteredWorkDays, _pixelsPerDay);
         }
-
-        public double GetTotalWidth() => _filteredWorkDays.Count * _pixelsPerDay;
+        public double GetTotalWidth() => GanttHelper.GetWidth(_filteredWorkDays, _pixelsPerDay);
     }
 }

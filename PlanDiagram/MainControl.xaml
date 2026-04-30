@@ -61,8 +61,8 @@
                         <ItemsControl.Resources>
                             <!-- Шаблон для объектов ProcessData -->
                             <DataTemplate DataType="{x:Type models:ProcessData}">
-                                <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="60" 
-                        Background="White" Padding="5,0">
+                                <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="40" 
+                    Background="White" Padding="5,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding ProcessName}"/>
                                         <TextBlock Text=" - "/>
@@ -74,7 +74,7 @@
                             <!-- Шаблон для строк (рабочих мест) -->
                             <DataTemplate DataType="{x:Type system:String}">
                                 <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="60" 
-                        Background="White" Padding="5,0">
+                    Background="White" Padding="5,0">
                                     <TextBlock Text="{Binding}" VerticalAlignment="Center" FontWeight="SemiBold"/>
                                 </Border>
                             </DataTemplate>
