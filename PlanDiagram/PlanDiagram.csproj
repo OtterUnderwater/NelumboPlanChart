@@ -50,6 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\GlobalConst.cs" />
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\GanttHelper.cs" />
     <Compile Include="Interfaces\IGanttChart.cs" />

@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using PlanDiagram.Constants;
 
 namespace PlanDiagram.Helpers
 {
@@ -48,19 +49,19 @@ namespace PlanDiagram.Helpers
         /// <summary>
         /// Отрисовка заголовка с датами
         /// </summary>
-        public static void DrawDateHeader(Canvas dateHeaderCanvas, List<DateTime> filteredWorkDays, double pixelsPerDay)
+        public static void DrawDateHeader(Canvas dateHeaderCanvas, List<DateTime> filteredWorkDays)
         {
             if (filteredWorkDays == null || filteredWorkDays.Count == 0) return;
 
             dateHeaderCanvas.Children.Clear();
-            double totalWidth = filteredWorkDays.Count * pixelsPerDay;
+            double totalWidth = filteredWorkDays.Count * GlobalConst.PixelsPerDay;
             dateHeaderCanvas.Width = totalWidth;
             dateHeaderCanvas.Height = 50;
 
             for (int i = 0; i < filteredWorkDays.Count; i++)
             {
                 DateTime date = filteredWorkDays[i];
-                double x = i * pixelsPerDay;
+                double x = i * GlobalConst.PixelsPerDay;
 
                 var dateText = new TextBlock
                 {
@@ -69,7 +70,7 @@ namespace PlanDiagram.Helpers
                     FontWeight = FontWeights.Bold,
                     Foreground = Brushes.Black
                 };
-                Canvas.SetLeft(dateText, x + (pixelsPerDay - 35) / 2);
+                Canvas.SetLeft(dateText, x + (GlobalConst.PixelsPerDay - 35) / 2);
                 Canvas.SetTop(dateText, 5);
                 dateHeaderCanvas.Children.Add(dateText);
 
@@ -79,15 +80,15 @@ namespace PlanDiagram.Helpers
                     FontSize = 9,
                     Foreground = Brushes.Gray
                 };
-                Canvas.SetLeft(dayText, x + (pixelsPerDay - 30) / 2);
+                Canvas.SetLeft(dayText, x + (GlobalConst.PixelsPerDay - 30) / 2);
                 Canvas.SetTop(dayText, 28);
                 dateHeaderCanvas.Children.Add(dayText);
 
                 var line = new Line
                 {
-                    X1 = x + pixelsPerDay,
+                    X1 = x + GlobalConst.PixelsPerDay,
                     Y1 = 0,
-                    X2 = x + pixelsPerDay,
+                    X2 = x + GlobalConst.PixelsPerDay,
                     Y2 = 50,
                     Stroke = Brushes.LightGray,
                     StrokeThickness = 0.5
@@ -107,12 +108,5 @@ namespace PlanDiagram.Helpers
             dateHeaderCanvas.Children.Add(leftBorder);
         }
 
-        /// <summary>
-        /// Расчёт общей ширины диаграммы
-        /// </summary>
-        public static double GetWidth(List<DateTime> filteredWorkDays, double pixelsPerDay)
-        {
-            return filteredWorkDays != null ? filteredWorkDays.Count * pixelsPerDay : 0;
-        }
     }
 }

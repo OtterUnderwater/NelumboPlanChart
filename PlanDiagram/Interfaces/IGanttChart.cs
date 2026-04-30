@@ -9,8 +9,6 @@ namespace PlanDiagram.Interfaces
 {
     public interface IGanttChart
     {
-        void Build(DateTime minDate, DateTime maxDate, List<ProcessData> processes, Canvas ganttCanvas);
-        void DrawDateHeader(Canvas dateHeaderCanvas);
-        double GetTotalWidth();
+        void Build(List<ProcessData> proc, List<DateTime> workDays, Canvas ganttCanvas);
     }
 }

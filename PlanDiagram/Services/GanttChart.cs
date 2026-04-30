@@ -1,10 +1,10 @@
-﻿using PlanDiagram.Helpers;
+﻿using PlanDiagram.Constants;
+using PlanDiagram.Helpers;
 using PlanDiagram.Interfaces;
 using PlanDiagram.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,80 +15,56 @@ namespace PlanDiagram.Services
 {
     public class GanttChart : IGanttChart
     {
-        #region [Переменные класса]
-        private List<DateTime> _allWorkDays;
-        private List<DateTime> _filteredWorkDays;
+        private List<DateTime> _workDays;
         private List<ProcessData> _process;
-        private double _pixelsPerDay = 45.0;
         private Canvas _ganttCanvas;
-        private DateTime _minDate;
-        private DateTime _maxDate;
-        #endregion
-
-        public GanttChart(List<DateTime> allWorkDays)
-        {
-            _allWorkDays = allWorkDays;
-        }
 
         /// <summary>
         /// Построение диаграммы Ганта
         /// </summary>
-        public void Build(DateTime minDate, DateTime maxDate, List<ProcessData> process, Canvas ganttCanvas)
+        public void Build(List<ProcessData> proc, List<DateTime> workDays, Canvas ganttCanvas)
         {
-            _process = process;
+            _process = proc;
             _ganttCanvas = ganttCanvas;
-            _minDate = minDate;
-            _maxDate = maxDate;
+            _workDays = workDays ?? new List<DateTime>();
 
-            // Фильтруем рабочие дни по диапазону дат
-            _filteredWorkDays = _allWorkDays
-                .Where(d => d >= minDate && d <= maxDate)
-                .OrderBy(d => d)
-                .ToList();
-
-            // Отрисовываем диаграмму
             DrawGanttChart();
         }
 
         /// <summary>
-        /// Обрезает дату задачи по границам фильтра
+        /// Обрезает дату задачи по границам отображаемых рабочих дней
         /// </summary>
         private DateTime ClipDate(DateTime date, bool isStart)
         {
+            if (_workDays.Count == 0) return date;
+
+            DateTime firstDay = _workDays.First();
+            DateTime lastDay = _workDays.Last();
+
             if (isStart)
-            {
-                return date < _minDate ? _minDate : date;
-            }
+                return date < firstDay ? firstDay : date;
             else
-            {
-                return date > _maxDate ? _maxDate : date;
-            }
+                return date > lastDay ? lastDay : date;
         }
 
-        /// <summary>
-        /// Отрисовка диаграммы Ганта на Canvas
-        /// </summary>
         private void DrawGanttChart()
         {
             if (_ganttCanvas == null || _process == null || _process.Count == 0 ||
-                _filteredWorkDays == null || _filteredWorkDays.Count == 0)
+                _workDays == null || _workDays.Count == 0)
                 return;
 
             _ganttCanvas.Children.Clear();
 
-            double totalWidth = GetTotalWidth();
+            double totalWidth = _workDays.Count * GlobalConst.PixelsPerDay;
             double rowHeight = 40;
-            double currentY = 0;
-
             _ganttCanvas.Width = totalWidth;
             _ganttCanvas.Height = _process.Count * rowHeight;
 
             for (int i = 0; i < _process.Count; i++)
             {
                 var proc = _process[i];
-                double y = currentY + i * rowHeight;
+                double y = i * rowHeight;
 
-                // Горизонтальная линия сетки
                 var gridLine = new Line
                 {
                     X1 = 0,
@@ -100,58 +76,43 @@ namespace PlanDiagram.Services
                 };
                 _ganttCanvas.Children.Add(gridLine);
 
-                // Обрезаем даты задачи по границам видимой области
                 DateTime visibleStart = ClipDate(proc.PlanStartDate, true);
                 DateTime visibleEnd = ClipDate(proc.PlanEndDate, false);
+                if (visibleStart > visibleEnd) continue;
 
-                // Проверяем, есть ли пересечение с видимой областью
-                if (visibleStart > visibleEnd)
-                    continue;
-
-                // Находим индексы рабочих дней для обрезанных дат
                 int startIndex = GetWorkingDayIndex(visibleStart);
                 int endIndex = GetWorkingDayIndex(visibleEnd);
+                if (startIndex == -1 || endIndex == -1) continue;
 
-                // Если даты не найдены в рабочих днях, пропускаем задачу
-                if (startIndex == -1 || endIndex == -1)
-                    continue;
-
-                // Вычисляем позицию и ширину на основе индексов рабочих дней
-                double x = startIndex * _pixelsPerDay;
-                double width = (endIndex - startIndex + 1) * _pixelsPerDay;
+                double x = startIndex * GlobalConst.PixelsPerDay;
+                double width = (endIndex - startIndex + 1) * GlobalConst.PixelsPerDay;
                 if (width < 4) width = 4;
 
-                // Прямоугольник задачи
                 var rect = new Rectangle
                 {
                     Width = width,
                     Height = rowHeight - 4,
-                    Fill  = GanttHelper.GetBrushHex(proc.HexCode),
+                    Fill = GanttHelper.GetBrushHex(proc.HexCode),
                     RadiusX = 3,
                     RadiusY = 3,
                     Tag = proc,
                     Cursor = Cursors.Hand,
-                    ToolTip = $"План: {proc.PlanStartDate:dd.MM.yyyy} - {proc.PlanEndDate:dd.MM.yyyy}\n" + 
+                    ToolTip = $"План: {proc.PlanStartDate:dd.MM.yyyy} - {proc.PlanEndDate:dd.MM.yyyy}\n" +
                               $"Раб.место: {proc.WorkCenterName}\n" +
                               $"Кол-во: {proc.Qty}\n" +
                               $"Длит-ть: {proc.WorkTime:F1} ч"
                 };
 
-                // Обработчик клика
                 rect.MouseLeftButtonDown += (s, e) =>
                 {
-                    var rectangle = s as Rectangle;
-                    if (rectangle?.Tag is ProcessData clickedTask)
-                    {
+                    if ((s as Rectangle)?.Tag is ProcessData clickedTask)
                         GanttHelper.ShowDetails(clickedTask);
-                    }
                 };
 
                 Canvas.SetLeft(rect, x);
                 Canvas.SetTop(rect, y + 2);
                 _ganttCanvas.Children.Add(rect);
 
-                // Текст внутри прямоугольника (если достаточно места)
                 if (width > 40)
                 {
                     var text = new TextBlock
@@ -161,7 +122,7 @@ namespace PlanDiagram.Services
                         Foreground = Brushes.White,
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center,
-                        IsHitTestVisible = false   // для tooltip
+                        IsHitTestVisible = false
                     };
                     Canvas.SetLeft(text, x + 4);
                     Canvas.SetTop(text, y + 12);
@@ -170,27 +131,12 @@ namespace PlanDiagram.Services
             }
         }
 
-        /// <summary>
-        /// Получение индекса рабочего дня в отфильтрованном списке
-        /// </summary>
         private int GetWorkingDayIndex(DateTime date)
         {
-            for (int i = 0; i < _filteredWorkDays.Count; i++)
-            {
-                if (_filteredWorkDays[i].Date == date.Date)
+            for (int i = 0; i < _workDays.Count; i++)
+                if (_workDays[i].Date == date.Date)
                     return i;
-            }
             return -1;
         }
-        
-        /// <summary>
-        /// Отрисовка дат
-        /// </summary>
-        public void DrawDateHeader(Canvas dateHeaderCanvas)
-        {
-            GanttHelper.DrawDateHeader(dateHeaderCanvas, _filteredWorkDays, _pixelsPerDay);
-        }
-
-        public double GetTotalWidth() => GanttHelper.GetWidth(_filteredWorkDays, _pixelsPerDay);
     }
 }

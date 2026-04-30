@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using System.Windows.Controls;
 using PlanDiagram.Helpers;
@@ -46,13 +47,12 @@ namespace PlanDiagram
             _allWorkDays = _planRepository.GetWorkingDaysFromCalendar();
 
             if (orderID == null)
-                _ganttChartService = new GanttChartByWorkCenter(_allWorkDays);
+                _ganttChartService = new GanttChartByWorkCenter();
             else
-                _ganttChartService = new GanttChart(_allWorkDays);
+                _ganttChartService = new GanttChart();
 
             SetDefaultDates(orderID);
         }  
-
         private void UpdateLeftColumn(List<ProcessData> sourceTasks = null)
         {
             if (sourceTasks == null) sourceTasks = _allProcess;
@@ -91,8 +91,7 @@ namespace PlanDiagram
         }
 
         private void BuildButton_Click(object sender, RoutedEventArgs e) => UpdatePlan();
-        
-
+       
         private void UpdatePlan()
         {
             if (!StartDatePicker.SelectedDate.HasValue || !EndDatePicker.SelectedDate.HasValue)
@@ -113,21 +112,28 @@ namespace PlanDiagram
             }
 
             // Фильтруем задачи по диапазону дат
-            var filteredTasks = _allProcess
-                .Where(t => DateHelper.IsDateRange(t.PlanStartDate, t.PlanEndDate, startDate, endDate))
-                .OrderBy(t => t.PlanStartDate)
-                .ThenBy(t => t.PlanEndDate)
+            var filteredProc = _allProcess
+             .Where(p => DateHelper.IsDateRange(p.PlanStartDate, p.PlanEndDate, startDate, endDate))
+             .OrderBy(p => p.PlanStartDate).ThenBy(p => p.PlanEndDate)
+             .ToList();
+
+            // Фильтруем рабочие дни по тому же диапазону
+            var filteredWorkDays = _allWorkDays
+                .Where(d => d >= startDate && d <= endDate)
+                .OrderBy(d => d)
                 .ToList();
 
             // Обновляем левую колонку в соответствии с отфильтрованными задачами
-            UpdateLeftColumn(filteredTasks);
+            UpdateLeftColumn(filteredProc);
 
             // Строим диаграмму
             GanttCanvas.Children.Clear();
             DateHeaderCanvas.Children.Clear();
-            _ganttChartService.Build(startDate, endDate, filteredTasks, GanttCanvas);
-            _ganttChartService.DrawDateHeader(DateHeaderCanvas);
 
+            // Передаём отфильтрованные рабочие дни в gantt-класс
+            _ganttChartService.Build(filteredProc, filteredWorkDays, GanttCanvas);
+
+            GanttHelper.DrawDateHeader(DateHeaderCanvas, filteredWorkDays);
             ResetScrollPositions();
         }
 
