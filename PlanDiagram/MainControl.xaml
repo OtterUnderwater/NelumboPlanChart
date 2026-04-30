@@ -2,7 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:models="clr-namespace:PlanDiagram.Models"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1100">
     <Grid HorizontalAlignment="Center">
@@ -37,29 +39,30 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Левая колонка: заголовок "Процесс" + список -->
+            <!-- Левая колонка: заголовок + список -->
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Заголовок левой колонки -->
+                <!-- Заголовок левой колонки (привязан к свойству) -->
                 <Border Grid.Row="0" Background="#E8E8E8" BorderBrush="#CCCCCC" BorderThickness="0,0,1,1">
-                    <TextBlock Text="Процесс" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    <TextBlock Text="{Binding LeftColumnTitle}" HorizontalAlignment="Center" VerticalAlignment="Center"
                                FontSize="12" FontWeight="Bold"/>
                 </Border>
 
-                <!-- Список процессов -->
+                <!-- Список процессов или рабочих мест (привязан к LeftColumnItems) -->
                 <ScrollViewer Grid.Row="1" x:Name="LeftScrollViewer" 
-                              HorizontalScrollBarVisibility="Disabled"
-                              VerticalScrollBarVisibility="Hidden"
-                              ScrollChanged="LeftScrollViewer_ScrollChanged">
-                    <ItemsControl x:Name="TasksList">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="40" 
-                                        Background="White" Padding="5,0">
+                     HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Hidden"
+                      ScrollChanged="LeftScrollViewer_ScrollChanged">
+                    <ItemsControl x:Name="TasksList" ItemsSource="{Binding LeftColumnItems}">
+                        <ItemsControl.Resources>
+                            <!-- Шаблон для объектов ProcessData -->
+                            <DataTemplate DataType="{x:Type models:ProcessData}">
+                                <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="60" 
+                        Background="White" Padding="5,0">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding ProcessName}"/>
                                         <TextBlock Text=" - "/>
@@ -67,7 +70,15 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+
+                            <!-- Шаблон для строк (рабочих мест) -->
+                            <DataTemplate DataType="{x:Type system:String}">
+                                <Border BorderBrush="#E0E0E0" BorderThickness="1,0,1,1" Height="60" 
+                        Background="White" Padding="5,0">
+                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.Resources>
                     </ItemsControl>
                 </ScrollViewer>
             </Grid>
@@ -89,7 +100,7 @@
                     </Border>
                 </ScrollViewer>
 
-                <!-- Область с диаграммой Ганта - ВКЛЮЧАЕМ прокрутку -->
+                <!-- Область с диаграммой Ганта -->
                 <ScrollViewer Grid.Row="1" x:Name="GanttScrollViewer"   
                               HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Hidden"                        

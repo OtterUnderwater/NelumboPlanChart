@@ -1,7 +1,9 @@
-﻿using PlanDiagram.Models;
+﻿using PlanDiagram.Interfaces;
+using PlanDiagram.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,7 +12,7 @@ using System.Windows.Shapes;
 
 namespace PlanDiagram.Services
 {
-    public class GanttChart
+    public class GanttChart : IGanttChart
     {
         #region [Переменные класса]
         private List<DateTime> _allWorkDays;
@@ -123,15 +125,17 @@ namespace PlanDiagram.Services
                 {
                     Width = width,
                     Height = rowHeight - 4,
-                    Fill = new SolidColorBrush(Colors.DodgerBlue),
+                    Fill = new SolidColorBrush((Color) ColorConverter.ConvertFromString(task.HexCode)),
                     RadiusX = 3,
                     RadiusY = 3,
                     Tag = task,
                     Cursor = Cursors.Hand,
-                    ToolTip = $"{task.ProcessName}\n" +
-                             $"План: {task.PlanStartDate:dd.MM.yyyy} - {task.PlanEndDate:dd.MM.yyyy}\n" +
-                             $"Видимый период: {visibleStart:dd.MM.yyyy} - {visibleEnd:dd.MM.yyyy}\n" +
-                             $"Длительность: {task.WorkTime:F1} ч"
+                    ToolTip = $"План: {task.PlanStartDate:dd.MM.yyyy} - {task.PlanEndDate:dd.MM.yyyy}\n" + 
+                              $"Раб.место: {task.WorkCenterName}\n" +
+                              $"Операция: {task.OpName}\n" +
+                              $"Процесс: {task.ProcessName}\n" +
+                              $"Кол-во: {task.Qty}\n" +
+                              $"Длит-ть: {task.WorkTime:F1} ч"
                 };
 
                 // Обработчик клика
@@ -157,7 +161,8 @@ namespace PlanDiagram.Services
                         FontSize = 11,
                         Foreground = Brushes.White,
                         VerticalAlignment = VerticalAlignment.Center,
-                        HorizontalAlignment = HorizontalAlignment.Center
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        IsHitTestVisible = false   // для tooltip
                     };
                     Canvas.SetLeft(text, x + 4);
                     Canvas.SetTop(text, y + 12);

@@ -43,6 +43,7 @@ namespace PlanDiagram.Services
                         int planStartDate = reader.GetOrdinal("PlanStartTime");
                         int planEndDate = reader.GetOrdinal("PlanEndTime");
                         int workTime = reader.GetOrdinal("FullWorkTimeH");
+                        int hexCode = reader.GetOrdinal("HexCode");
                         while (reader.Read())
                         {           
                             ProcessData data = new ProcessData
@@ -53,7 +54,8 @@ namespace PlanDiagram.Services
                                 Qty = (double) reader.GetDecimal(qty),
                                 PlanStartDate = reader.GetDateTime(planStartDate),
                                 PlanEndDate = reader.GetDateTime(planEndDate),
-                                WorkTime = (double) reader.GetDecimal(workTime)
+                                WorkTime = (double) reader.GetDecimal(workTime),
+                                HexCode = reader.GetString(hexCode)
                             };
                             processData.Add(data);
                         }

@@ -15,6 +15,7 @@ namespace PlanDiagram.Models
         public DateTime PlanStartDate { get; set; }  //PlanStartTime
         public DateTime PlanEndDate { get; set; }  //PlanEndTime
         public double WorkTime { get; set; } //FullWorkTimeH
+        public string HexCode { get; set; }
         public double DurationDays => (PlanEndDate - PlanStartDate).TotalDays + 1;
         public string TooltipText => $"{ProcessName}\n{PlanStartDate:dd.MM.yyyy} - {PlanEndDate:dd.MM.yyyy}\n{WorkTime:F1} ч";
     }

@@ -1,10 +1,11 @@
-﻿using PlanDiagram.Models;
+﻿using PlanDiagram.Interfaces;
+using PlanDiagram.Models;
 using PlanDiagram.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,17 +13,21 @@ using System.Windows.Shapes;
 
 namespace PlanDiagram
 {
-    public partial class MainControl : UserControl
+    public partial class MainControl : UserControl, INotifyPropertyChanged
     {
         #region [Переменные класса]
-        private GanttChart _ganttChartService;
+        private IGanttChart _ganttChartService;
+        private IEnumerable _leftColumnItems;
+        private string _leftColumnTitle;
         private PlanRepository _planRepository;
         private List<ProcessData> _allProcess;
         private List<DateTime> _allWorkDays;
         #endregion
+
         public MainControl(Hashtable parameters)
         {
             InitializeComponent();
+            DataContext = this;
 
             string connectionString = (string)parameters["ConnectionString"];
             int regID = (int)parameters["RegID"];
@@ -32,10 +37,47 @@ namespace PlanDiagram
             _allProcess = _planRepository.GetPlanList();
             _allWorkDays = _planRepository.GetWorkingDaysFromCalendar();
 
-            _ganttChartService = new GanttChart(_allWorkDays);
+            if (orderID == null)
+                _ganttChartService = new GanttChartByWorkCenter(_allWorkDays);
+            else
+                _ganttChartService = new GanttChart(_allWorkDays);
 
             SetDefaultDates(orderID);
-            TasksList.ItemsSource = _allProcess;
+        }
+
+        public IEnumerable LeftColumnItems
+        {
+            get => _leftColumnItems;
+            set { _leftColumnItems = value; OnPropertyChanged(nameof(LeftColumnItems)); }
+        }
+
+        public string LeftColumnTitle
+        {
+            get => _leftColumnTitle;
+            set { _leftColumnTitle = value; OnPropertyChanged(nameof(LeftColumnTitle)); }
+        }
+
+        private void UpdateLeftColumn(List<ProcessData> sourceTasks = null)
+        {
+            if (sourceTasks == null) sourceTasks = _allProcess;
+
+            if (_ganttChartService is GanttChartByWorkCenter)
+            {
+                // Список уникальных рабочих мест (отсортированный)
+                var workCenters = sourceTasks
+                    .Select(p => p.WorkCenterName)
+                    .Distinct()
+                    .OrderBy(w => w)
+                    .ToList();
+                LeftColumnItems = workCenters;
+                LeftColumnTitle = "Рабочее место";
+            }
+            else
+            {
+                // Список процессов
+                LeftColumnItems = sourceTasks;
+                LeftColumnTitle = "Процесс / Операция";
+            }
         }
 
         private void SetDefaultDates(int? OrderID)
@@ -44,6 +86,7 @@ namespace PlanDiagram
             {
                 StartDatePicker.SelectedDate = DateTime.Today;
                 EndDatePicker.SelectedDate = DateTime.Today.AddDays(14);
+                UpdateLeftColumn(); // обновим левую колонку (может быть пустой)
                 return;
             }
 
@@ -52,14 +95,6 @@ namespace PlanDiagram
             UpdatePlan();
         }
 
-        /// <summary>
-        /// Проверяет, пересекаются ли два периода дат
-        /// </summary>
-        /// <param name="taskStart">Начало задачи</param>
-        /// <param name="taskEnd">Конец задачи</param>
-        /// <param name="filterStart">Начало фильтра</param>
-        /// <param name="filterEnd">Конец фильтра</param>
-        /// <returns>True, если периоды пересекаются</returns>
         private bool IsDateRangeIntersects(DateTime taskStart, DateTime taskEnd, DateTime filterStart, DateTime filterEnd)
         {
             return Max(taskStart, filterStart) <= Min(taskEnd, filterEnd);
@@ -91,37 +126,28 @@ namespace PlanDiagram
                 return;
             }
 
-            // Фильтруем задачи с использованием IsDateRangeIntersects
+            // Фильтруем задачи по диапазону дат
             var filteredTasks = _allProcess
                 .Where(t => IsDateRangeIntersects(t.PlanStartDate, t.PlanEndDate, startDate, endDate))
                 .OrderBy(t => t.PlanStartDate)
                 .ThenBy(t => t.PlanEndDate)
                 .ToList();
 
-            TasksList.ItemsSource = filteredTasks;
+            // Обновляем левую колонку в соответствии с отфильтрованными задачами
+            UpdateLeftColumn(filteredTasks);
 
-            // Передаем отфильтрованные данные в GanttChart и строим диаграмму
+            // Строим диаграмму
+            GanttCanvas.Children.Clear();
+            DateHeaderCanvas.Children.Clear();
             _ganttChartService.Build(startDate, endDate, filteredTasks, GanttCanvas);
             _ganttChartService.DrawDateHeader(DateHeaderCanvas);
 
-            // Сбрасываем прокрутку после построения
             ResetScrollPositions();
         }
 
         private void GanttItem_Click(object sender, MouseButtonEventArgs e)
         {
-            var rectangle = sender as Rectangle;
-            if (rectangle != null && rectangle.Tag is ProcessData task)
-            {
-                ShowTaskDetails(task);
-                e.Handled = true;
-            }
-        }
-
-        private void TaskItem_Click(object sender, MouseButtonEventArgs e)
-        {
-            var border = sender as Border;
-            if (border != null && border.DataContext is ProcessData task)
+            if (sender is Rectangle rectangle && rectangle.Tag is ProcessData task)
             {
                 ShowTaskDetails(task);
                 e.Handled = true;
@@ -142,8 +168,7 @@ namespace PlanDiagram
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        #region [Прокрутка диаграммы]
-
+        #region Прокрутка
         private void GanttScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             DateHeaderScrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset);
@@ -166,7 +191,12 @@ namespace PlanDiagram
             DateHeaderScrollViewer?.ScrollToHome();
             LeftScrollViewer?.ScrollToTop();
         }
+        #endregion
 
+        #region INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 }

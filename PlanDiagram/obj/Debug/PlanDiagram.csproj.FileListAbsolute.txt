@@ -47,3 +47,5 @@ C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.cspro
 C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.csproj.CoreCompileInputs.cache
 C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.dll
 C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.pdb
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Prog01\Desktop\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram_MarkupCompile.lref

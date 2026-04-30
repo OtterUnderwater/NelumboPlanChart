@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using System.Security.Policy;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 
@@ -24,12 +25,9 @@ namespace PlanDiagram.WinForms
                     Name = "wpfHost"
                 };
 
-                _wpfControl = new MainControl(parameters);
-                    
+                _wpfControl = new MainControl(parameters);                   
                 _elementHost.Child = _wpfControl;
-
                 Controls.Add(_elementHost);
-
                 ConfigurePanel();
             }
             catch (Exception ex)
@@ -46,6 +44,7 @@ namespace PlanDiagram.WinForms
         {
             this.Dock = DockStyle.Fill;
             this.BackColor = Color.White;
+            this.AutoScaleMode = AutoScaleMode.None;
         }
     }
 }
