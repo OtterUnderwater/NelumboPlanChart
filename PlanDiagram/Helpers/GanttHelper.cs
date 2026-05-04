@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using PlanDiagram.Constants;
+using System.Threading.Tasks;
 
 namespace PlanDiagram.Helpers
 {
@@ -21,31 +22,13 @@ namespace PlanDiagram.Helpers
                              $"Процесс: {proc.ProcessName}\n" +
                              $"Операция: {proc.OpName}\n" +
                              $"Количество: {proc.Qty}\n" +
-                             $"План: {proc.PlanStartDate:dd.MM.yyyy} - {proc.PlanEndDate:dd.MM.yyyy}\n" +
-                             $"Длительность: {proc.WorkTime:F1} час\n";
+                             $"План: {proc.PlanStartTime:dd.MM.yyyy} - {proc.PlanEndTime:dd.MM.yyyy}\n" +
+                             $"Длительность: {proc.FullWorkTimeH:F1} час\n";
 
             MessageBox.Show(message, "Информация о процессе",
                             MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        /// <summary>
-        /// Получаем цвет из hex кода
-        /// </summary>
-        /// <param name="hexCode"></param>
-        /// <returns></returns>
-        public static Brush GetBrushHex(string hexCode)
-        {
-            if (string.IsNullOrEmpty(hexCode)) return Brushes.Gray;
-            try
-            {
-                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexCode));
-            }
-            catch
-            {
-                return Brushes.Gray;
-            }
-        }
-        
         /// <summary>
         /// Отрисовка заголовка с датами
         /// </summary>
@@ -106,6 +89,46 @@ namespace PlanDiagram.Helpers
                 StrokeThickness = 1
             };
             dateHeaderCanvas.Children.Add(leftBorder);
+        }
+
+        /// <summary>
+        /// Получаем цвет из hex кода
+        /// </summary>
+        /// <param name="hexCode"></param>
+        /// <returns></returns>
+        public static Brush GetBrushHex(string hexCode)
+        {
+            if (string.IsNullOrEmpty(hexCode)) return Brushes.Gray;
+            try
+            {
+                return new SolidColorBrush((Color)ColorConverter.ConvertFromString(hexCode));
+            }
+            catch
+            {
+                return Brushes.Gray;
+            }
+        }
+
+        public static Brush GetColor(int status)
+        {
+            SolidColorBrush blue = new SolidColorBrush(Color.FromArgb(180, 100, 149, 237));
+            SolidColorBrush yellow = new SolidColorBrush(Color.FromArgb(180, 255, 220, 100));
+            SolidColorBrush green = new SolidColorBrush(Color.FromArgb(180, 144, 238, 144));
+            SolidColorBrush darkGreen = new SolidColorBrush(Color.FromArgb(76, 144, 175, 80));
+            SolidColorBrush red = new SolidColorBrush(Color.FromArgb(180, 255, 100, 100));
+            SolidColorBrush gray = new SolidColorBrush(Color.FromArgb(180, 200, 200, 200));
+            SolidColorBrush orange = new SolidColorBrush(Color.FromArgb(180, 255, 165, 0));
+            switch (status)
+            {
+                //case "Назначена": return blue;
+                //case "Исполняется": return (task.PlanExecDate < DateTime.Today && !task.FactExecDate.HasValue) ? red : yellow;
+                //case "Пауза": return (task.PlanExecDate < DateTime.Today && !task.FactExecDate.HasValue) ? red : orange;
+                //case "Выполнена":  return (task.FactExecDate.HasValue && task.FactExecDate.Value <= task.PlanExecDate) ? green : red;
+                //case "Завершена": return (task.FactExecDate.HasValue && task.FactExecDate.Value <= task.PlanExecDate) ? darkGreen : red;
+               
+                default:
+                    return gray;
+            }
         }
 
     }

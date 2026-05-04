@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PlanDiagram.WinForms</RootNamespace>
     <AssemblyName>PlanDiagram.WinForms</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -76,6 +76,9 @@
     <EmbeddedResource Include="PlanPanel.resx">
       <DependentUpon>PlanPanel.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -21,7 +21,7 @@ namespace TestDllWindows
             Hashtable parameters = new Hashtable();
             parameters["ConnectionString"] = "server=MB-FW5T1RUAHO2Z;database=_box001;uid=se;pwd=wd;";
             parameters["RegID"] = 174967;
-            //parameters["OrderID"] = 20;
+            parameters["OrderID"] = 27;
 
             // Создаем форму и добавляем на нее панель
             Form hostForm = new Form();

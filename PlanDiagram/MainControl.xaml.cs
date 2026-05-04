@@ -85,8 +85,8 @@ namespace PlanDiagram
                 UpdateLeftColumn(); // обновим левую колонку
                 return;
             }
-            StartDatePicker.SelectedDate = _allProcess.Min(t => t.PlanStartDate);
-            EndDatePicker.SelectedDate = _allProcess.Max(t => t.PlanEndDate);
+            StartDatePicker.SelectedDate = _allProcess.Min(t => t.PlanStartTime);
+            EndDatePicker.SelectedDate = _allProcess.Max(t => t.PlanEndTime);
             UpdatePlan();
         }
 
@@ -113,8 +113,8 @@ namespace PlanDiagram
 
             // Фильтруем задачи по диапазону дат
             var filteredProc = _allProcess
-             .Where(p => DateHelper.IsDateRange(p.PlanStartDate, p.PlanEndDate, startDate, endDate))
-             .OrderBy(p => p.PlanStartDate).ThenBy(p => p.PlanEndDate)
+             .Where(p => DateHelper.IsDateRange(p.PlanStartTime, p.PlanEndTime, startDate, endDate))
+             .OrderBy(p => p.PlanStartTime).ThenBy(p => p.PlanEndTime)
              .ToList();
 
             // Фильтруем рабочие дни по тому же диапазону

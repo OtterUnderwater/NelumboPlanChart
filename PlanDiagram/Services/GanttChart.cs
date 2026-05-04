@@ -60,11 +60,15 @@ namespace PlanDiagram.Services
             _ganttCanvas.Width = totalWidth;
             _ganttCanvas.Height = _process.Count * rowHeight;
 
+            DateTime viewStart = _workDays.First();
+            DateTime viewEnd = _workDays.Last();
+
             for (int i = 0; i < _process.Count; i++)
             {
                 var proc = _process[i];
                 double y = i * rowHeight;
 
+                // Линия сетки
                 var gridLine = new Line
                 {
                     X1 = 0,
@@ -76,31 +80,60 @@ namespace PlanDiagram.Services
                 };
                 _ganttCanvas.Children.Add(gridLine);
 
-                DateTime visibleStart = ClipDate(proc.PlanStartDate, true);
-                DateTime visibleEnd = ClipDate(proc.PlanEndDate, false);
-                if (visibleStart > visibleEnd) continue;
+                // Отрисовка планового периода (прямоугольник)
+                DrawPeriod(proc.PlanStartTime, proc.PlanEndTime, viewStart, viewEnd, y, rowHeight - 4, 
+                    isRect: true, proc);
 
-                int startIndex = GetWorkingDayIndex(visibleStart);
-                int endIndex = GetWorkingDayIndex(visibleEnd);
-                if (startIndex == -1 || endIndex == -1) continue;
+                // Отрисовка фактического периода (линия поверх)
+                if (proc.StartTime.HasValue)
+                {
+                    DrawPeriod(proc.StartTime.Value, proc.EndTime, viewStart, viewEnd, y, rowHeight - 4, 
+                        isRect: false, proc);
+                }
+            }
+        }
 
-                double x = startIndex * GlobalConst.PixelsPerDay;
-                double width = (endIndex - startIndex + 1) * GlobalConst.PixelsPerDay;
-                if (width < 4) width = 4;
+        private void DrawPeriod(DateTime periodStart, DateTime? dateEnd, DateTime viewStart, DateTime viewEnd, double y, double height, bool isRect, ProcessData proc)
+        {
+            DateTime periodEnd = (dateEnd.HasValue) ? dateEnd.Value : DateTime.Today;
 
+            // Проверяем пересечение периодов
+            if (periodEnd < viewStart || periodStart > viewEnd)
+                return;
+
+            // Вычисляем видимую часть периода
+            DateTime visibleStart = periodStart < viewStart ? viewStart : periodStart;
+            DateTime visibleEnd = periodEnd > viewEnd ? viewEnd : periodEnd;
+
+            // Получаем индексы рабочих дней
+            int startIndex = GetWorkingDayIndex(visibleStart);
+            int endIndex = GetWorkingDayIndex(visibleEnd);
+
+            if (startIndex == -1 || endIndex == -1)
+                return;
+
+            // Вычисляем координаты
+            double left = startIndex * GlobalConst.PixelsPerDay;
+            double width = (endIndex - startIndex + 1) * GlobalConst.PixelsPerDay;
+
+            if (width <= 0)
+                return;
+
+            if (isRect)
+            {
                 var rect = new Rectangle
                 {
                     Width = width,
-                    Height = rowHeight - 4,
+                    Height = height,
                     Fill = GanttHelper.GetBrushHex(proc.HexCode),
                     RadiusX = 3,
                     RadiusY = 3,
                     Tag = proc,
                     Cursor = Cursors.Hand,
-                    ToolTip = $"План: {proc.PlanStartDate:dd.MM.yyyy} - {proc.PlanEndDate:dd.MM.yyyy}\n" +
+                    ToolTip = $"План: {proc.PlanStartTime:dd.MM.yyyy} - {proc.PlanEndTime:dd.MM.yyyy}\n" +
                               $"Раб.место: {proc.WorkCenterName}\n" +
                               $"Кол-во: {proc.Qty}\n" +
-                              $"Длит-ть: {proc.WorkTime:F1} ч"
+                              $"Длит-ть: {proc.FullWorkTimeH:F1} ч"
                 };
 
                 rect.MouseLeftButtonDown += (s, e) =>
@@ -109,25 +142,45 @@ namespace PlanDiagram.Services
                         GanttHelper.ShowDetails(clickedTask);
                 };
 
-                Canvas.SetLeft(rect, x);
+                Canvas.SetLeft(rect, left);
                 Canvas.SetTop(rect, y + 2);
                 _ganttCanvas.Children.Add(rect);
 
+                // Текст внутри планового прямоугольника
                 if (width > 40)
                 {
                     var text = new TextBlock
                     {
-                        Text = $"{proc.WorkTime:F1} ч",
+                        Text = $"{proc.FullWorkTimeH:F1} ч",
                         FontSize = 11,
                         Foreground = Brushes.White,
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         IsHitTestVisible = false
                     };
-                    Canvas.SetLeft(text, x + 4);
+                    Canvas.SetLeft(text, left + 4);
                     Canvas.SetTop(text, y + 12);
                     _ganttCanvas.Children.Add(text);
                 }
+            }
+            else
+            {
+                // Линия фактического периода
+                var line = new Line
+                {
+                    X1 = 0,
+                    Y1 = 0,
+                    X2 = width,
+                    Y2 = 0,
+                    Stroke = Brushes.Black,
+                    StrokeThickness = 3,
+                    StrokeDashArray = new DoubleCollection { 2, 2 } // Пунктир для линии факта
+                };
+
+                double verticalCenter = y + (height / 2) + 2; // Центрируем по высоте прямоугольника
+                Canvas.SetLeft(line, left);
+                Canvas.SetTop(line, verticalCenter);
+                _ganttCanvas.Children.Add(line);
             }
         }
 

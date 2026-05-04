@@ -13,12 +13,14 @@ namespace PlanDiagram.Models
         public string ProcessName { get; set; }
         public string OpName { get; set; }
         public double Qty { get; set; }
-        public DateTime PlanStartDate { get; set; }  //PlanStartTime
-        public DateTime PlanEndDate { get; set; }  //PlanEndTime
-        public double WorkTime { get; set; } //FullWorkTimeH
+        public DateTime PlanStartTime { get; set; }
+        public DateTime PlanEndTime { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+        public double FullWorkTimeH { get; set; }
         public string HexCode { get; set; }
         public List<LoadingWC> WorkTimeDay { get; set; } = new List<LoadingWC>();
-        public double DurationDays => (PlanEndDate - PlanStartDate).TotalDays + 1;
-        public string TooltipText => $"{ProcessName}\n{PlanStartDate:dd.MM.yyyy} - {PlanEndDate:dd.MM.yyyy}\n{WorkTime:F1} ч";
+        public double DurationDays => (PlanEndTime - PlanStartTime).TotalDays + 1;
+        public string TooltipText => $"{ProcessName}\n{PlanStartTime:dd.MM.yyyy} - {PlanEndTime:dd.MM.yyyy}\n{FullWorkTimeH:F1} ч";
     }
 }
