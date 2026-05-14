@@ -3,32 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram\\helpers\\gantthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\helpers\\gantthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram\\models\\processdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\models\\processdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BAF950DC-DB34-4666-B5CC-D1F70A490ADC}|TestDllWindows\\TestDllWindows.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\testdllwindows\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BAF950DC-DB34-4666-B5CC-D1F70A490ADC}|TestDllWindows\\TestDllWindows.csproj|C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\testdllwindows\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BAF950DC-DB34-4666-B5CC-D1F70A490ADC}|TestDllWindows\\TestDllWindows.csproj|solutionrelative:testdllwindows\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram\\maincontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4659B4A9-3D2B-4F67-B57C-C60C137ED821}|PlanDiagram.WinForms\\PlanDiagram.WinForms.csproj|C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\plandiagram.winforms\\planpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4659B4A9-3D2B-4F67-B57C-C60C137ED821}|PlanDiagram.WinForms\\PlanDiagram.WinForms.csproj|solutionrelative:plandiagram.winforms\\planpanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4659B4A9-3D2B-4F67-B57C-C60C137ED821}|PlanDiagram.WinForms\\PlanDiagram.WinForms.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram.winforms\\planform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4659B4A9-3D2B-4F67-B57C-C60C137ED821}|PlanDiagram.WinForms\\PlanDiagram.WinForms.csproj|solutionrelative:plandiagram.winforms\\planform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\plandiagram\\maincontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\maincontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|c:\\users\\prog01\\source\\repos\\nelumboplanchart\\plandiagram\\helpers\\gantthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\helpers\\gantthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\plandiagram\\models\\processdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\models\\processdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2DC7AE31-D356-436E-8EBA-C55C186F45F4}|PlanDiagram\\PlanDiagram.csproj|solutionrelative:plandiagram\\services\\ganttchart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,17 +42,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\TestDllWindows\\Program.cs",
               "RelativeDocumentMoniker": "TestDllWindows\\Program.cs",
               "ToolTip": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\TestDllWindows\\Program.cs",
               "RelativeToolTip": "TestDllWindows\\Program.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBcAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAmwAsAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-14T11:48:21.382Z",
               "IsPinned": true,
@@ -56,7 +60,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "PlanForm.cs",
+              "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram.WinForms\\PlanForm.cs",
+              "RelativeDocumentMoniker": "PlanDiagram.WinForms\\PlanForm.cs",
+              "ToolTip": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram.WinForms\\PlanForm.cs",
+              "RelativeToolTip": "PlanDiagram.WinForms\\PlanForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T12:31:49.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "ProcessData.cs",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\Models\\ProcessData.cs",
               "RelativeDocumentMoniker": "PlanDiagram\\Models\\ProcessData.cs",
@@ -64,25 +81,24 @@
               "RelativeToolTip": "PlanDiagram\\Models\\ProcessData.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-14T12:09:49.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-14T12:09:49.248Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "GanttHelper.cs",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\Helpers\\GanttHelper.cs",
               "RelativeDocumentMoniker": "PlanDiagram\\Helpers\\GanttHelper.cs",
               "ToolTip": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\Helpers\\GanttHelper.cs",
               "RelativeToolTip": "PlanDiagram\\Helpers\\GanttHelper.cs",
-              "ViewState": "AgIAAGoAAAAAAAAAAAAqwIUAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAuwIUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-14T12:04:28.27Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "GanttChart.cs",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\Services\\GanttChart.cs",
               "RelativeDocumentMoniker": "PlanDiagram\\Services\\GanttChart.cs",
@@ -90,25 +106,24 @@
               "RelativeToolTip": "PlanDiagram\\Services\\GanttChart.cs",
               "ViewState": "AgIAAGcAAAAAAAAAAAAiwHoAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-14T12:02:53.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-14T12:02:53.041Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "MainControl.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml.cs",
               "RelativeDocumentMoniker": "PlanDiagram\\MainControl.xaml.cs",
               "ToolTip": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml.cs",
               "RelativeToolTip": "PlanDiagram\\MainControl.xaml.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAwDUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-14T11:35:17.27Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "MainControl.xaml",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram\\MainControl.xaml",
               "RelativeDocumentMoniker": "PlanDiagram\\MainControl.xaml",
@@ -120,13 +135,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "PlanPanel.cs",
               "DocumentMoniker": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram.WinForms\\PlanPanel.cs",
               "RelativeDocumentMoniker": "PlanDiagram.WinForms\\PlanPanel.cs",
               "ToolTip": "C:\\Users\\Prog01\\source\\repos\\NelumboPlanChart\\PlanDiagram.WinForms\\PlanPanel.cs",
               "RelativeToolTip": "PlanDiagram.WinForms\\PlanPanel.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAIwBsAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAAC0AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-04T09:45:27.348Z",
               "EditorCaption": ""
