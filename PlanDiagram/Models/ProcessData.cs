@@ -9,6 +9,7 @@ namespace PlanDiagram.Models
     public class ProcessData
     {
         public int ProdPlanRowID { get; set; }
+        public int StatusID { get; set; }
         public string WorkCenterName { get; set; }
         public string ProcessName { get; set; }
         public string OpName { get; set; }

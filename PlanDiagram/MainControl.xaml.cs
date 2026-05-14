@@ -22,6 +22,12 @@ namespace PlanDiagram
         private PlanRepository _planRepository;
         private List<ProcessData> _allProcess;
         private List<DateTime> _allWorkDays;
+        private Visibility _showColorIndicators = Visibility.Collapsed;
+        public Visibility ShowColorIndicators
+        {
+            get => _showColorIndicators;
+            set { _showColorIndicators = value; OnPropertyChanged(nameof(ShowColorIndicators)); }
+        }
         public IEnumerable LeftColumnItems
         {
             get => _leftColumnItems;
@@ -47,10 +53,15 @@ namespace PlanDiagram
             _allWorkDays = _planRepository.GetWorkingDaysFromCalendar();
 
             if (orderID == null)
+            {
                 _ganttChartService = new GanttChartByWorkCenter();
+                ShowColorIndicators = Visibility.Collapsed;
+            }
             else
+            {
                 _ganttChartService = new GanttChart();
-
+                ShowColorIndicators = Visibility.Visible;
+            }
             SetDefaultDates(orderID);
         }  
         private void UpdateLeftColumn(List<ProcessData> sourceTasks = null)

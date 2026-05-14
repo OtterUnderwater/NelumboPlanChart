@@ -109,27 +109,28 @@ namespace PlanDiagram.Helpers
             }
         }
 
-        public static Brush GetColor(int status)
+        /// <summary>
+        /// Определяет цвет задачи в зависимости от статуса и дат
+        /// </summary>
+        /// <param name="task">Задача</param>
+        /// <returns>Цвет для отображения</returns>
+        public static Brush GetColor(ProcessData plan)
         {
             SolidColorBrush blue = new SolidColorBrush(Color.FromArgb(180, 100, 149, 237));
             SolidColorBrush yellow = new SolidColorBrush(Color.FromArgb(180, 255, 220, 100));
-            SolidColorBrush green = new SolidColorBrush(Color.FromArgb(180, 144, 238, 144));
-            SolidColorBrush darkGreen = new SolidColorBrush(Color.FromArgb(76, 144, 175, 80));
+            SolidColorBrush green = new SolidColorBrush(Color.FromArgb(76, 144, 175, 80));
             SolidColorBrush red = new SolidColorBrush(Color.FromArgb(180, 255, 100, 100));
             SolidColorBrush gray = new SolidColorBrush(Color.FromArgb(180, 200, 200, 200));
-            SolidColorBrush orange = new SolidColorBrush(Color.FromArgb(180, 255, 165, 0));
-            switch (status)
+
+            bool isOverdue = plan.PlanEndTime < DateTime.Today && !plan.EndTime.HasValue;
+            switch (plan.StatusID)
             {
-                //case "Назначена": return blue;
-                //case "Исполняется": return (task.PlanExecDate < DateTime.Today && !task.FactExecDate.HasValue) ? red : yellow;
-                //case "Пауза": return (task.PlanExecDate < DateTime.Today && !task.FactExecDate.HasValue) ? red : orange;
-                //case "Выполнена":  return (task.FactExecDate.HasValue && task.FactExecDate.Value <= task.PlanExecDate) ? green : red;
-                //case "Завершена": return (task.FactExecDate.HasValue && task.FactExecDate.Value <= task.PlanExecDate) ? darkGreen : red;
-               
-                default:
-                    return gray;
+                case 1: return blue; //план
+                case 2: return isOverdue ? red : yellow; //в работе
+                case 3: return gray; //ожидание
+                case 4: return isOverdue ? red : green; //готово
+                default: return blue;
             }
         }
-
     }
 }

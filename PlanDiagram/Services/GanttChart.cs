@@ -5,6 +5,7 @@ using PlanDiagram.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -125,7 +126,7 @@ namespace PlanDiagram.Services
                 {
                     Width = width,
                     Height = height,
-                    Fill = GanttHelper.GetBrushHex(proc.HexCode),
+                    Fill = GanttHelper.GetColor(proc),
                     RadiusX = 3,
                     RadiusY = 3,
                     Tag = proc,
