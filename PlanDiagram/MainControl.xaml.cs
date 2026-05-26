@@ -43,7 +43,6 @@ namespace PlanDiagram
         {
             InitializeComponent();
             DataContext = this;
-
             string connectionString = (string)parameters["ConnectionString"];
             int regID = (int)parameters["RegID"];
             int? orderID = (int?)parameters["OrderID"];
@@ -96,11 +95,11 @@ namespace PlanDiagram
                 UpdateLeftColumn(); // обновим левую колонку
                 return;
             }
+
             StartDatePicker.SelectedDate = _allProcess.Min(t => t.PlanStartTime);
             EndDatePicker.SelectedDate = _allProcess.Max(t => t.PlanEndTime);
             UpdatePlan();
         }
-
         private void BuildButton_Click(object sender, RoutedEventArgs e) => UpdatePlan();
        
         private void UpdatePlan()

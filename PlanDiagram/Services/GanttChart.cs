@@ -57,7 +57,7 @@ namespace PlanDiagram.Services
             _ganttCanvas.Children.Clear();
 
             double totalWidth = _workDays.Count * GlobalConst.PixelsPerDay;
-            double rowHeight = 40;
+            double rowHeight = GlobalConst.DefaultRowHeight;
             _ganttCanvas.Width = totalWidth;
             _ganttCanvas.Height = _process.Count * rowHeight;
 
@@ -152,15 +152,16 @@ namespace PlanDiagram.Services
                 {
                     var text = new TextBlock
                     {
-                        Text = $"{proc.FullWorkTimeH:F1} ч",
+                        Text = $"ц: {proc.OutQty:F1}\nс: {proc.FixQty:F1}\nд: {proc.NotOutQty:F1}",
                         FontSize = 11,
                         Foreground = Brushes.White,
+                        TextAlignment = TextAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         IsHitTestVisible = false
                     };
                     Canvas.SetLeft(text, left + 4);
-                    Canvas.SetTop(text, y + 12);
+                    Canvas.SetTop(text, y + 6);
                     _ganttCanvas.Children.Add(text);
                 }
             }

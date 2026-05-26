@@ -9,8 +9,6 @@ namespace PlanDiagram.WinForms
     public partial class PlanForm : Form
     {
         private ElementHost _elementHost;
-        private MainControl _wpfControl;
-
         public PlanForm(Hashtable parameters)
         {
             try
@@ -24,12 +22,8 @@ namespace PlanDiagram.WinForms
                     Name = "wpfHost"
                 };
 
-                _wpfControl = new MainControl(parameters);
-
-                _elementHost.Child = _wpfControl;
-
+                _elementHost.Child = new MainControl(parameters);
                 Controls.Add(_elementHost);
-
                 ConfigureForm();
             }
             catch (Exception ex)

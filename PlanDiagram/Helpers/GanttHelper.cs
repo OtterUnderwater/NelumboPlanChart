@@ -18,12 +18,16 @@ namespace PlanDiagram.Helpers
         /// <param name="proc"></param>
         public static void ShowDetails(ProcessData proc)
         {
-            string message = $"Рабочее место: {proc.WorkCenterName}\n" +
+            string message = $"Заказ: {proc.DocNumber}\n" +
+                             $"Рабочее место: {proc.WorkCenterName}\n" +
                              $"Процесс: {proc.ProcessName}\n" +
                              $"Операция: {proc.OpName}\n" +
                              $"Количество: {proc.Qty}\n" +
                              $"План: {proc.PlanStartTime:dd.MM.yyyy} - {proc.PlanEndTime:dd.MM.yyyy}\n" +
-                             $"Длительность: {proc.FullWorkTimeH:F1} час\n";
+                             $"Длительность: {proc.FullWorkTimeH:F1} час\n" +
+                             $"Цеx: {proc.OutQty}\n" +
+                             $"Склад: {proc.FixQty}\n" +
+                             $"Дефицит: {proc.NotOutQty}";
 
             MessageBox.Show(message, "Информация о процессе",
                             MessageBoxButton.OK, MessageBoxImage.Information);

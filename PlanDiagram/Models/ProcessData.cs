@@ -20,6 +20,10 @@ namespace PlanDiagram.Models
         public DateTime? EndTime { get; set; }
         public double FullWorkTimeH { get; set; }
         public string HexCode { get; set; }
+        public string DocNumber { get; set; }
+        public double OutQty { get; set; }
+        public double FixQty { get; set; }
+        public double NotOutQty { get; set; }
         public List<LoadingWC> WorkTimeDay { get; set; } = new List<LoadingWC>();
         public double DurationDays => (PlanEndTime - PlanStartTime).TotalDays + 1;
         public string TooltipText => $"{ProcessName}\n{PlanStartTime:dd.MM.yyyy} - {PlanEndTime:dd.MM.yyyy}\n{FullWorkTimeH:F1} ч";
