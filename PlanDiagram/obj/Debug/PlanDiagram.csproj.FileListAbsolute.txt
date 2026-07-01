@@ -83,3 +83,5 @@ C:\Users\Prog01\source\repos\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.
 C:\Users\Prog01\source\repos\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiag.EADED0CE.Up2Date
 C:\Users\Prog01\source\repos\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.dll
 C:\Users\Prog01\source\repos\NelumboPlanChart\PlanDiagram\obj\Debug\PlanDiagram.pdb
+C:\Users\Prog01\source\repos\NelumboPlanChart\PlanDiagram\obj\Debug\SearchWindow.baml
+C:\Users\Prog01\source\repos\NelumboPlanChart\PlanDiagram\obj\Debug\SearchWindow.g.cs

@@ -7,6 +7,15 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1100">
+    <UserControl.Resources>
+        <!-- Шаблон для отображения выбранных элементов в ComboBox (множественный выбор) -->
+        <Style x:Key="MultiSelectComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="IsEditable" Value="True"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Text" Value="Выберите..."/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -30,6 +39,16 @@
                             Click="BuildButton_Click" Content="Сформировать отчет" 
                             Cursor="Hand"/>
                 </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                    <Button Content="Выбрать фильтры" 
+                            Click="OpenSearchButton_Click" 
+                            Margin="5"
+                            Padding="10,5"/>         
+                </StackPanel>
+
+                <TextBlock x:Name="SelectedFiltersText"  Text="Фильтры не выбраны"  FontSize="11" Foreground="Black" TextWrapping="Wrap"/>
+
             </StackPanel>
         </Border>
         

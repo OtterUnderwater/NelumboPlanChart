@@ -66,7 +66,13 @@
     <Compile Include="Helpers\DateHelper.cs" />
     <Compile Include="Helpers\GanttHelper.cs" />
     <Compile Include="Interfaces\IGanttChart.cs" />
+    <Compile Include="Models\ClientOrder.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\LoadingWC.cs" />
+    <Compile Include="Models\ProductionOrder.cs" />
+    <Compile Include="SearchWindow.xaml.cs">
+      <DependentUpon>SearchWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\GanttChart.cs" />
     <Compile Include="Services\GanttChartByWorkCenter.cs" />
     <Compile Include="Services\PlanRepository.cs" />
@@ -78,6 +84,10 @@
       <DependentUpon>MainControl.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SearchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ProcessData.cs" />

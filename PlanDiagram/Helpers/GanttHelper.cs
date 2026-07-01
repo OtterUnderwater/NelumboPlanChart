@@ -18,7 +18,7 @@ namespace PlanDiagram.Helpers
         /// <param name="proc"></param>
         public static void ShowDetails(ProcessData proc)
         {
-            string message = $"Заказ: {proc.DocNumber}\n" +
+            string message = $"Заказ: {proc.OrderName}\n" +
                              $"Рабочее место: {proc.WorkCenterName}\n" +
                              $"Процесс: {proc.ProcessName}\n" +
                              $"Операция: {proc.OpName}\n" +
